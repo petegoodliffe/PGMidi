@@ -25,7 +25,7 @@
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
 
-    IF_IOS4_OR_GREATER
+    IF_IOS_HAS_COREMIDI
     (
         // We only create a MidiInput object on iOS versions that support CoreMIDI
         midiInput = [[MidiInput alloc] init];

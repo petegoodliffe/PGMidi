@@ -9,10 +9,12 @@
 #import "MidiMonitorViewController.h"
 
 #import "MidiInput.h"
+#import "iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 @interface MidiMonitorViewController () <MidiInputDelegate>
 - (void) updateCountLabel;
+- (void) addString:(NSString*)string;
 @end
 
 @implementation MidiMonitorViewController
@@ -29,6 +31,15 @@
 {
     [self clearTextView];
     [self updateCountLabel];
+
+    IF_IOS_HAS_COREMIDI
+    (
+         [self addString:@"This iOS Version supports CoreMIDI"];
+    )
+    else
+    {
+        [self addString:@"You are running iOS before 4.2. CoreMIDI is not supported."];
+    }
 }
 
 #pragma mark IBActions
