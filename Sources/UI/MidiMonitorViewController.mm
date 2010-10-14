@@ -49,6 +49,14 @@
     textView.text = nil;
 }
 
+- (IBAction) listAllInterfaces
+{
+    IF_IOS_HAS_COREMIDI
+    (
+        ListInterfaces(self);
+    )
+}
+
 #pragma mark Shenanigans
 
 - (void) setMidiInput:(MidiInput*)mi

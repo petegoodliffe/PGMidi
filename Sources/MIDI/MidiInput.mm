@@ -199,12 +199,14 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 //==============================================================================
 
-NSUInteger ListInterfaces()
+NSUInteger ListInterfaces(id<MidiInputDelegate> delegate)
 {
-    NSLog(@"%s: # external devices=%u", __func__, MIDIGetNumberOfExternalDevices());
-    NSLog(@"%s: # devices=%u",          __func__, MIDIGetNumberOfDevices());
-    NSLog(@"%s: # sources=%u",          __func__, MIDIGetNumberOfSources());
-    NSLog(@"%s: # destinations=%u",     __func__, MIDIGetNumberOfDestinations());
+//#define PGLog NSLog
+#define PGLog(...) [delegate midiInput:nil event:[NSString stringWithFormat:__VA_ARGS__]]
+    PGLog(@"%s: # external devices=%u", __func__, MIDIGetNumberOfExternalDevices());
+    PGLog(@"%s: # devices=%u",          __func__, MIDIGetNumberOfDevices());
+    PGLog(@"%s: # sources=%u",          __func__, MIDIGetNumberOfSources());
+    PGLog(@"%s: # destinations=%u",     __func__, MIDIGetNumberOfDestinations());
 
     MIDIClientRef  client = 0;
     CFStringRef    clientName = (CFStringRef)@"MIDI Updater";
@@ -214,7 +216,7 @@ NSUInteger ListInterfaces()
 
     for (ItemCount index = 0; index < MIDIGetNumberOfExternalDevices(); ++index)
     {
-        NSLog(@"%s: index %u", __func__, index);
+        PGLog(@"%s: index %u", __func__, index);
         MIDIDeviceRef device = MIDIGetDevice(index);
         if (device)
         {
@@ -227,13 +229,13 @@ NSUInteger ListInterfaces()
         MIDIEndpointRef endpoint = MIDIGetDestination(index);
         if (endpoint)
         {
-            NSLog(@"%s:   destination index %u", __func__, index);
+            PGLog(@"%s:   destination index %u", __func__, index);
             CFStringRef name = nil;
             OSStatus s = MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
             if (s)
                 NSLogError(s, @"Getting dest name");
             else
-                NSLog(@"Name=%@", name);
+                PGLog(@"Name=%@", name);
             CFRelease(name);
 
             CFPropertyListRef properties = nil;
@@ -241,7 +243,7 @@ NSUInteger ListInterfaces()
             if (s)
                 NSLogError(s, @"Getting properties");
             else
-                NSLog(@"Properties=%@", properties);
+                PGLog(@"Properties=%@", properties);
             CFRelease(properties); properties = nil;
 
             MIDIEntityRef entity = 0;
@@ -251,7 +253,7 @@ NSUInteger ListInterfaces()
             if (s)
                 NSLogError(s, @"Getting entity properties");
             else
-                NSLog(@"Entity properties=%@", properties);
+                PGLog(@"Entity properties=%@", properties);
             CFRelease(properties); properties = nil;
 
             SInt32 offline = 0;
@@ -259,19 +261,19 @@ NSUInteger ListInterfaces()
             if (s)
                 NSLogError(s, @"Getting offline properties");
             else
-                NSLog(@"Entity offline=%d", offline);
+                PGLog(@"Entity offline=%d", offline);
 
             //CFRelease(entity); entity = nil;
 
             //CFRelease(endpoint);
-            NSLog(@"Done");
+            //PGLog(@"Done");
         }
     }
 
     if (client)
         MIDIClientDispose(client);
 
-    NSLog(@"Found all interfaces");
+    PGLog(@"Found all interfaces");
 
     return MIDIGetNumberOfDestinations();
 }

@@ -40,7 +40,7 @@
 
 @end
 
-/// Dump a list of MIDI interfaces to NSLog
+/// Dump a list of MIDI interfaces as events on this delegate.
 ///
 /// A helpful diagnostic, and an example of how to enumerate devices
-NSUInteger ListInterfaces();
+NSUInteger ListInterfaces(id<MidiInputDelegate> delegate);

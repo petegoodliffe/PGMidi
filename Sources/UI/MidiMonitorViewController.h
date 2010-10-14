@@ -24,6 +24,7 @@
 @property (nonatomic,assign) MidiInput *midiInput;
 
 - (IBAction) clearTextView;
+- (IBAction) listAllInterfaces;
 
 @end
 
