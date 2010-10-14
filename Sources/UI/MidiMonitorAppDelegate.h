@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class MidiMonitorViewController;
+@class MidiInput;
 
-@interface MidiMonitorAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
+@interface MidiMonitorAppDelegate : NSObject <UIApplicationDelegate>
+{
+    UIWindow                  *window;
     MidiMonitorViewController *viewController;
+    MidiInput                 *midiInput;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

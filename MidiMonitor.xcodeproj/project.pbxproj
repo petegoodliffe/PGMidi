@@ -16,6 +16,9 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MidiMonitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.m */; };
 		C1763E421266F0190032E953 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1763E411266F0190032E953 /* CoreMIDI.framework */; };
+		C1763E721266F7F60032E953 /* MidiInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1763E711266F7F60032E953 /* MidiInput.mm */; };
+		C1763E811266FAEB0032E953 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763E801266FAEB0032E953 /* Icon-72.png */; };
+		C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +36,11 @@
 		32CA4F630368D1EE00C91783 /* MidiMonitor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiMonitor_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MidiMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MidiMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C1763E411266F0190032E953 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		C1763E6F1266F7F60032E953 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
+		C1763E701266F7F60032E953 /* MidiInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiInput.h; sourceTree = "<group>"; };
+		C1763E711266F7F60032E953 /* MidiInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiInput.mm; sourceTree = "<group>"; };
+		C1763E801266FAEB0032E953 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +58,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
+		080E96DDFE201D6D7F000001 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				1D3623240D0F684500981E51 /* MidiMonitorAppDelegate.h */,
@@ -58,7 +66,7 @@
 				28D7ACF60DDB3853001CB0EB /* MidiMonitorViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.m */,
 			);
-			path = Classes;
+			path = UI;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -83,8 +91,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* MidiMonitorViewController.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				C1763E761266FAC90032E953 /* Icons */,
+				C1763E751266FAC60032E953 /* XIBs */,
 				8D1107310486CEB800E47090 /* MidiMonitor-Info.plist */,
 			);
 			path = Resources;
@@ -104,11 +112,40 @@
 		C1763E401266EFB60032E953 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				080E96DDFE201D6D7F000001 /* Classes */,
+				080E96DDFE201D6D7F000001 /* UI */,
+				C1763E6A1266F69F0032E953 /* MIDI */,
 				32CA4F630368D1EE00C91783 /* MidiMonitor_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		C1763E6A1266F69F0032E953 /* MIDI */ = {
+			isa = PBXGroup;
+			children = (
+				C1763E6F1266F7F60032E953 /* iOSVersionDetection.h */,
+				C1763E701266F7F60032E953 /* MidiInput.h */,
+				C1763E711266F7F60032E953 /* MidiInput.mm */,
+			);
+			path = MIDI;
+			sourceTree = "<group>";
+		};
+		C1763E751266FAC60032E953 /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				2899E5210DE3E06400AC0155 /* MidiMonitorViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */,
+			);
+			path = XIBs;
+			sourceTree = "<group>";
+		};
+		C1763E761266FAC90032E953 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				C1763E801266FAEB0032E953 /* Icon-72.png */,
+			);
+			path = Icons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,6 +199,8 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* MidiMonitorViewController.xib in Resources */,
+				C1763E811266FAEB0032E953 /* Icon-72.png in Resources */,
+				C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +214,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MidiMonitorAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MidiMonitorViewController.m in Sources */,
+				C1763E721266F7F60032E953 /* MidiInput.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +258,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos4.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -233,7 +273,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				SDKROOT = iphoneos4.2;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
