@@ -69,9 +69,30 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 //==============================================================================
 #pragma mark Connect/disconnect
 
+NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
+{
+    NSString *string = nil;
+
+    MIDIEntityRef entity = 0;
+    MIDIEndpointGetEntity(ref, &entity);
+
+    CFPropertyListRef properties = nil;
+    OSStatus s = MIDIObjectGetProperties(entity, &properties, true);
+    if (s)
+        string = [NSString stringWithFormat:@"Error getting properties: %@",
+                  [NSError errorWithDomain:NSMachErrorDomain code:s userInfo:nil] ];
+    else
+        string = [NSString stringWithFormat:@"%@", properties];
+    CFRelease(properties);
+
+    return string;
+}
+
 - (void) connectSource:(MIDIEndpointRef)source
 {
-    [delegate midiInput:self event:@"Added a source"];
+    ++numberOfConnectedDevices;
+    [delegate midiInput:self
+                  event:[NSString stringWithFormat:@"Added a source: %@", DescrptionOfEndpoint(source)]];
 
     OSStatus s = MIDIPortConnectSource(inputPort, source, self);
     NSLogError(s, @"Connecting to MIDI source");
@@ -79,6 +100,7 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 - (void) disconnectSource:(MIDIEndpointRef)source
 {
+    --numberOfConnectedDevices;
     [delegate midiInput:self event:@"Removed a source"];
 
     OSStatus s = MIDIPortDisconnectSource(inputPort, source);
@@ -104,6 +126,8 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         [self connectDestination:MIDIGetDestination(index)];
     for (ItemCount index = 0; index < numberOfSources; ++index)
         [self connectDestination:MIDIGetSource(index)];
+
+    numberOfConnectedDevices = numberOfSources;
 }
 
 //==============================================================================
@@ -178,9 +202,9 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 NSUInteger ListInterfaces()
 {
     NSLog(@"%s: # external devices=%u", __func__, MIDIGetNumberOfExternalDevices());
-    NSLog(@"%s: # devices=%u", __func__, MIDIGetNumberOfDevices());
-    NSLog(@"%s: # sources=%u", __func__, MIDIGetNumberOfSources());
-    NSLog(@"%s: # destinations=%u", __func__, MIDIGetNumberOfDestinations());
+    NSLog(@"%s: # devices=%u",          __func__, MIDIGetNumberOfDevices());
+    NSLog(@"%s: # sources=%u",          __func__, MIDIGetNumberOfSources());
+    NSLog(@"%s: # destinations=%u",     __func__, MIDIGetNumberOfDestinations());
 
     MIDIClientRef  client = 0;
     CFStringRef    clientName = (CFStringRef)@"MIDI Updater";
