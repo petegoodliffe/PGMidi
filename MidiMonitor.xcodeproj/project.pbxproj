@@ -19,6 +19,7 @@
 		C1763E721266F7F60032E953 /* MidiInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1763E711266F7F60032E953 /* MidiInput.mm */; };
 		C1763E811266FAEB0032E953 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763E801266FAEB0032E953 /* Icon-72.png */; };
 		C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */; };
+		C1763EDC1266FFBE0032E953 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763EDB1266FFBE0032E953 /* Icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		C1763E711266F7F60032E953 /* MidiInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiInput.mm; sourceTree = "<group>"; };
 		C1763E801266FAEB0032E953 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
+		C1763EDB1266FFBE0032E953 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 		C1763E761266FAC90032E953 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				C1763EDB1266FFBE0032E953 /* Icon.png */,
 				C1763E801266FAEB0032E953 /* Icon-72.png */,
 			);
 			path = Icons;
@@ -201,6 +204,7 @@
 				2899E5220DE3E06400AC0155 /* MidiMonitorViewController.xib in Resources */,
 				C1763E811266FAEB0032E953 /* Icon-72.png in Resources */,
 				C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */,
+				C1763EDC1266FFBE0032E953 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
