@@ -22,6 +22,7 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 @implementation MidiInput
 
 @synthesize delegate;
+@synthesize numberOfConnectedDevices;
 
 - (id) init
 {

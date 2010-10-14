@@ -23,6 +23,7 @@
 
 @property (nonatomic,assign) MidiInput *midiInput;
 
+- (IBAction) clearTextView;
 
 @end
 

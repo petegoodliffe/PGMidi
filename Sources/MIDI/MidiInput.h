@@ -13,6 +13,9 @@
 
 /// Delegate protocol for MidiInput class.
 /// Adopt this protocol in your object to receive events from MIDI
+///
+/// IMPORTANT NOTE:
+/// MIDI input is received from a high prirotiy background thread
 @protocol MidiInputDelegate
 - (void) midiInput:(MidiInput*)input event:(NSString*)event;
 - (void) midiInput:(MidiInput*)input midiReceived:(const MIDIPacketList *)packetList;
@@ -28,11 +31,16 @@
     MIDIClientRef           client;
     MIDIPortRef             outputPort;
     MIDIPortRef             inputPort;
+    NSUInteger              numberOfConnectedDevices;
     id<MidiInputDelegate>   delegate;
 }
 
-@property (nonatomic,assign) id<MidiInputDelegate> delegate;
+@property (nonatomic,assign)   id<MidiInputDelegate> delegate;
+@property (nonatomic,readonly) NSUInteger            numberOfConnectedDevices;
 
 @end
 
+/// Dump a list of MIDI interfaces to NSLog
+///
+/// A helpful diagnostic, and an example of how to enumerate devices
 NSUInteger ListInterfaces();
