@@ -28,8 +28,6 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 {
     if ((self = [super init]))
     {
-        [self scanExistingDevices];
-
         OSStatus s = MIDIClientCreate((CFStringRef)@"iDJ Pro MIDI Client", MyMIDINotifyProc, self, &client);
         NSLogError(s, @"Create MIDI client");
 
@@ -38,6 +36,8 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
         s = MIDIInputPortCreate(client, (CFStringRef)@"iDJ Pro Input Port", MyMIDIReadProc, self, &inputPort);
         NSLogError(s, @"Create input MIDI port");
+
+        [self scanExistingDevices];
     }
 
     return self;
@@ -125,7 +125,7 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
     for (ItemCount index = 0; index < numberOfDestinations; ++index)
         [self connectDestination:MIDIGetDestination(index)];
     for (ItemCount index = 0; index < numberOfSources; ++index)
-        [self connectDestination:MIDIGetSource(index)];
+        [self connectSource:MIDIGetSource(index)];
 
     numberOfConnectedDevices = numberOfSources;
 }
