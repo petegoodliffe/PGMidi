@@ -18,7 +18,7 @@
     MidiInput                 *midiInput;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet UIWindow                  *window;
 @property (nonatomic, retain) IBOutlet MidiMonitorViewController *viewController;
 
 @end

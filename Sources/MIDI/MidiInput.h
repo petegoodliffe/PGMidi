@@ -15,10 +15,18 @@
 /// Adopt this protocol in your object to receive events from MIDI
 ///
 /// IMPORTANT NOTE:
-/// MIDI input is received from a high prirotiy background thread
+/// MIDI input is received from a high priority background thread
 @protocol MidiInputDelegate
+
+// Raised on main run loop
 - (void) midiInput:(MidiInput*)input event:(NSString*)event;
+
+/// NOTE: Raised on high-priority background thread.
+///
+/// To do anything UI-ish, you must forward the event to the main runloop
+/// (e.g. use performSelectorOnMainThread:withObject:waitUntilDone:)
 - (void) midiInput:(MidiInput*)input midiReceived:(const MIDIPacketList *)packetList;
+
 @end
 
 /// Class for receiving MIDI input from any MIDI device.

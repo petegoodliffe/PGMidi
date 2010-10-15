@@ -30,7 +30,10 @@
         __VA_ARGS__ \
     }
 #else
-#define IF_IOS4_OR_GREATER(...)
+#define IF_IOS4_OR_GREATER(...) \
+    if (false) \
+    { \
+    }
 #endif
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40200

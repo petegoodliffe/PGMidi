@@ -137,9 +137,9 @@
 		C1763E751266FAC60032E953 /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* MidiMonitorViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */,
+				2899E5210DE3E06400AC0155 /* MidiMonitorViewController.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";

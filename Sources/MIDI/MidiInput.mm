@@ -216,7 +216,7 @@ NSUInteger ListInterfaces(id<MidiInputDelegate> delegate)
 
     for (ItemCount index = 0; index < MIDIGetNumberOfExternalDevices(); ++index)
     {
-        PGLog(@"%s: index %u", __func__, index);
+        PGLog(@"%s: External device %u", __func__, index);
         MIDIDeviceRef device = MIDIGetDevice(index);
         if (device)
         {
@@ -229,7 +229,7 @@ NSUInteger ListInterfaces(id<MidiInputDelegate> delegate)
         MIDIEndpointRef endpoint = MIDIGetDestination(index);
         if (endpoint)
         {
-            PGLog(@"%s:   destination index %u", __func__, index);
+            PGLog(@"%s: Destination index %u", __func__, index);
             CFStringRef name = nil;
             OSStatus s = MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
             if (s)

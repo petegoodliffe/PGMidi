@@ -17,9 +17,6 @@
 @synthesize window;
 @synthesize viewController;
 
-#pragma mark -
-#pragma mark Application lifecycle
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [window addSubview:viewController.view];
@@ -35,17 +32,11 @@
 	return YES;
 }
 
-
-
-#pragma mark -
-#pragma mark Memory management
-
 - (void)dealloc
 {
     [viewController release];
     [window release];
     [super dealloc];
 }
-
 
 @end
