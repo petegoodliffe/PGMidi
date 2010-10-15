@@ -177,15 +177,9 @@ void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 //==============================================================================
 #pragma mark MIDI I/O
 
-- (void) mentionInput
-{
-    [delegate midiInput:self event:@"Read some MIDI"];
-}
-
 // NOTE: Called on a separate high-priority thread, not the main runloop
 - (void) midiRead:(const MIDIPacketList *)pktlist
 {
-    //[self performSelectorOnMainThread:@selector(mentionInput) withObject:nil waitUntilDone:NO];
     [delegate midiInput:self midiReceived:pktlist];
 }
 
