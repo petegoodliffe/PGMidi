@@ -1,6 +1,6 @@
 //
 //  MidiInput.m
-//  iDJ-Pro
+//  MidiMonitor
 //
 //  Created by Pete Goodliffe on 10/12/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
@@ -28,13 +28,13 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 {
     if ((self = [super init]))
     {
-        OSStatus s = MIDIClientCreate((CFStringRef)@"iDJ Pro MIDI Client", MyMIDINotifyProc, self, &client);
+        OSStatus s = MIDIClientCreate((CFStringRef)@"MidiMonitor MIDI Client", MyMIDINotifyProc, self, &client);
         NSLogError(s, @"Create MIDI client");
 
-        s = MIDIOutputPortCreate(client, (CFStringRef)@"iDJ Pro Output Port", &outputPort);
+        s = MIDIOutputPortCreate(client, (CFStringRef)@"MidiMonitor Output Port", &outputPort);
         NSLogError(s, @"Create output MIDI port");
 
-        s = MIDIInputPortCreate(client, (CFStringRef)@"iDJ Pro Input Port", MyMIDIReadProc, self, &inputPort);
+        s = MIDIInputPortCreate(client, (CFStringRef)@"MidiMonitor Input Port", MyMIDIReadProc, self, &inputPort);
         NSLogError(s, @"Create input MIDI port");
 
         [self scanExistingDevices];

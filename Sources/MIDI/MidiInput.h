@@ -1,6 +1,6 @@
 //
 //  MidiInput.h
-//  iDJ-Pro
+//  MidiMonitor
 //
 //  Created by Pete Goodliffe on 10/12/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
