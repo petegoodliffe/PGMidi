@@ -12,9 +12,12 @@
 #import "iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
+UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
+
 @interface MidiMonitorViewController () <MidiInputDelegate>
 - (void) updateCountLabel;
 - (void) addString:(NSString*)string;
+- (void) sendMidiDataInBackground;
 @end
 
 @implementation MidiMonitorViewController
@@ -55,6 +58,11 @@
     (
         ListInterfaces(self);
     )
+}
+
+- (IBAction) sendMidiData
+{
+    [self performSelectorInBackground:@selector(sendMidiDataInBackground) withObject:nil];
 }
 
 #pragma mark Shenanigans
@@ -105,6 +113,20 @@ NSString *StringFromPacket(const MIDIPacket *packet)
                                withObject:StringFromPacket(packet)
                             waitUntilDone:NO];
         packet = MIDIPacketNext(packet);
+    }
+}
+
+- (void) sendMidiDataInBackground
+{
+    for (int n = 0; n < 20; ++n)
+    {
+        const UInt8 note      = RandomNoteNumber();
+        const UInt8 noteOn[]  = { 0x90, note, 127 };
+        const UInt8 noteOff[] = { 0x80, note, 0   };
+
+        [midiInput sendMidi:noteOn size:sizeof(noteOn)];
+        [NSThread sleepForTimeInterval:0.1];
+        [midiInput sendMidi:noteOff size:sizeof(noteOff)];
     }
 }
 

@@ -8,7 +8,10 @@
 
 #import "MidiInput.h"
 
+/// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %u:%@", str, c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
+
+//==============================================================================
 
 void MyMIDINotifyProc(const MIDINotification *message, void *refCon);
 void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon);
@@ -175,7 +178,7 @@ void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 }
 
 //==============================================================================
-#pragma mark MIDI I/O
+#pragma mark MIDI Input
 
 // NOTE: Called on a separate high-priority thread, not the main runloop
 - (void) midiRead:(const MIDIPacketList *)pktlist
@@ -187,6 +190,31 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 {
     MidiInput *self = (MidiInput*)readProcRefCon;
     [self midiRead:pktlist];
+}
+
+//==============================================================================
+#pragma mark MIDI Output
+
+- (void) sendMidi:(const UInt8*)data size:(UInt32)size
+{
+    NSLog(@"%s(%u bytes to core MIDI)", __func__, unsigned(size));
+    assert(size < 65536);
+    Byte packetBuffer[size+100];
+    MIDIPacketList *packetList = (MIDIPacketList*)packetBuffer;
+    MIDIPacket     *packet     = MIDIPacketListInit(packetList);
+
+    packet = MIDIPacketListAdd(packetList, sizeof(packetBuffer), packet, 0, size, data);
+
+    for (ItemCount index = 0; index < MIDIGetNumberOfDestinations(); ++index)
+    {
+        MIDIEndpointRef outputEndpoint = MIDIGetDestination(index);
+        if (outputEndpoint)
+        {
+            // Send it
+            OSStatus s = MIDISend(outputPort, outputEndpoint, packetList);
+            NSLogError(s, @"Sending MIDI");
+        }
+    }
 }
 
 @end

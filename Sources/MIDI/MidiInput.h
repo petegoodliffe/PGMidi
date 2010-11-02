@@ -46,6 +46,9 @@
 @property (nonatomic,assign)   id<MidiInputDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger            numberOfConnectedDevices;
 
+/// Send a MIDI byte stream to every connected MIDI port
+- (void) sendMidi:(const UInt8*)bytes size:(UInt32)size;
+
 @end
 
 /// Dump a list of MIDI interfaces as events on this delegate.

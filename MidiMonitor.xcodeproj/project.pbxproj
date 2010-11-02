@@ -21,6 +21,7 @@
 		C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */; };
 		C1763EDC1266FFBE0032E953 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763EDB1266FFBE0032E953 /* Icon.png */; };
 		C1763FE312672EEC0032E953 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763FE212672EEC0032E953 /* Default.png */; };
+		C1FFC85B12798CAF003DD5CD /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1FFC85A12798CAF003DD5CD /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +47,7 @@
 		C1763EDB1266FFBE0032E953 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C1763FE212672EEC0032E953 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		C17642B6126855D70032E953 /* ReleaseNotes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReleaseNotes.rtf; sourceTree = "<group>"; };
-		C1FFC81212797952003DD5CD /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		C1FFC85A12798CAF003DD5CD /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +101,8 @@
 			children = (
 				C1763E761266FAC90032E953 /* Icons */,
 				C1763E751266FAC60032E953 /* XIBs */,
+				C1FFC85A12798CAF003DD5CD /* Entitlements.plist */,
 				8D1107310486CEB800E47090 /* MidiMonitor-Info.plist */,
-				C1FFC81212797952003DD5CD /* Entitlements.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -213,6 +214,7 @@
 				C1763EBB1266FC920032E953 /* MainWindow-iPhone.xib in Resources */,
 				C1763EDC1266FFBE0032E953 /* Icon.png in Resources */,
 				C1763FE312672EEC0032E953 /* Default.png in Resources */,
+				C1FFC85B12798CAF003DD5CD /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +239,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = "~/Work/akailib/git/MidiMonitor/Resources/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Resources/Entitlements.plist;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -252,7 +254,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_ENTITLEMENTS = "~/Work/akailib/git/MidiMonitor/Resources/Entitlements.plist";
+				CODE_SIGN_ENTITLEMENTS = Resources/Entitlements.plist;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/MidiMonitor_Prefix.pch;

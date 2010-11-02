@@ -25,6 +25,7 @@
 
 - (IBAction) clearTextView;
 - (IBAction) listAllInterfaces;
+- (IBAction) sendMidiData;
 
 @end
 

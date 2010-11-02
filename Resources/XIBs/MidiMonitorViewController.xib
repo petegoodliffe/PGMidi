@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
 		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">804</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.29</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">131</string>
+			<string key="NS.object.0">132</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -90,6 +90,12 @@
 							</object>
 							<object class="IBUIBarButtonItem" id="872989518">
 								<string key="IBUITitle">List Interfaces</string>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="510833204"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="750791461">
+								<string key="IBUITitle">Send MIDI</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="510833204"/>
@@ -215,6 +221,14 @@
 					</object>
 					<int key="connectionID">15</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">sendMidiData</string>
+						<reference key="source" ref="750791461"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">17</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -257,6 +271,7 @@
 							<reference ref="573437291"/>
 							<reference ref="872989518"/>
 							<reference ref="133595179"/>
+							<reference ref="750791461"/>
 						</object>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -295,6 +310,11 @@
 						<reference key="object" ref="133595179"/>
 						<reference key="parent" ref="510833204"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">16</int>
+						<reference key="object" ref="750791461"/>
+						<reference key="parent" ref="510833204"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -305,6 +325,7 @@
 					<string>-2.CustomClassName</string>
 					<string>13.IBPluginDependency</string>
 					<string>14.IBPluginDependency</string>
+					<string>16.IBPluginDependency</string>
 					<string>2.IBEditorWindowLastContentRect</string>
 					<string>2.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
@@ -324,7 +345,8 @@
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{498, 4}, {768, 1024}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>{{1859, 154}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -362,7 +384,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">15</int>
+			<int key="maxID">17</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -376,9 +398,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>clearTextView</string>
 							<string>listAllInterfaces</string>
+							<string>sendMidiData</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -389,6 +413,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>clearTextView</string>
 							<string>listAllInterfaces</string>
+							<string>sendMidiData</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -398,6 +423,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">listAllInterfaces</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">sendMidiData</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>
@@ -675,6 +704,6 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../../MidiMonitor.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">131</string>
+		<string key="IBCocoaTouchPluginVersion">132</string>
 	</data>
 </archive>
