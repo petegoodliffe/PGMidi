@@ -1,12 +1,12 @@
 //
-//  MidiInput.m
+//  PGMidiInput.m
 //  MidiMonitor
 //
 //  Created by Pete Goodliffe on 10/12/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "MidiInput.h"
+#import "PGMidiInput.h"
 
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %u:%@", str, c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
@@ -16,13 +16,13 @@
 void MyMIDINotifyProc(const MIDINotification *message, void *refCon);
 void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon);
 
-@interface MidiInput ()
+@interface PGMidiInput ()
 - (void) scanExistingDevices;
 @end
 
 //==============================================================================
 
-@implementation MidiInput
+@implementation PGMidiInput
 
 @synthesize delegate;
 @synthesize numberOfConnectedDevices;
@@ -173,7 +173,7 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
 
 void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 {
-    MidiInput *self = (MidiInput*)refCon;
+    PGMidiInput *self = (PGMidiInput*)refCon;
     [self midiNotify:message];
 }
 
@@ -188,7 +188,7 @@ void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 
 void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    MidiInput *self = (MidiInput*)readProcRefCon;
+    PGMidiInput *self = (PGMidiInput*)readProcRefCon;
     [self midiRead:pktlist];
 }
 
@@ -221,7 +221,7 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 //==============================================================================
 
-NSUInteger ListInterfaces(id<MidiInputDelegate> delegate)
+NSUInteger ListInterfaces(id<PGMidiInputDelegate> delegate)
 {
 //#define PGLog NSLog
 #define PGLog(...) [delegate midiInput:nil event:[NSString stringWithFormat:__VA_ARGS__]]

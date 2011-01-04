@@ -8,13 +8,13 @@
 
 #import "MidiMonitorViewController.h"
 
-#import "MidiInput.h"
+#import "PGMidiInput.h"
 #import "iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
-@interface MidiMonitorViewController () <MidiInputDelegate>
+@interface MidiMonitorViewController () <PGMidiInputDelegate>
 - (void) updateCountLabel;
 - (void) addString:(NSString*)string;
 - (void) sendMidiDataInBackground;
@@ -67,7 +67,7 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
 #pragma mark Shenanigans
 
-- (void) setMidiInput:(MidiInput*)mi
+- (void) setMidiInput:(PGMidiInput*)mi
 {
     midiInput.delegate = nil;
     midiInput = mi;
@@ -84,7 +84,7 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
     countLabel.text = [NSString stringWithFormat:@"%u", midiInput.numberOfConnectedDevices];
 }
 
-- (void) midiInput:(MidiInput*)input event:(NSString*)event
+- (void) midiInput:(PGMidiInput*)input event:(NSString*)event
 {
     [self updateCountLabel];
     [self addString:event];
@@ -100,7 +100,7 @@ NSString *StringFromPacket(const MIDIPacket *packet)
            ];
 }
 
-- (void) midiInput:(MidiInput*)input midiReceived:(const MIDIPacketList *)packetList
+- (void) midiInput:(PGMidiInput*)input midiReceived:(const MIDIPacketList *)packetList
 {
     [self performSelectorOnMainThread:@selector(addString:)
                            withObject:@"MIDI received:"

@@ -9,7 +9,7 @@
 #import "MidiMonitorAppDelegate.h"
 
 #import "MidiMonitorViewController.h"
-#import "MidiInput.h"
+#import "PGMidiInput.h"
 #import "iOSVersionDetection.h"
 
 @implementation MidiMonitorAppDelegate
@@ -25,7 +25,7 @@
     IF_IOS_HAS_COREMIDI
     (
         // We only create a MidiInput object on iOS versions that support CoreMIDI
-        midiInput = [[MidiInput alloc] init];
+        midiInput = [[PGMidiInput alloc] init];
         viewController.midiInput = midiInput;
     )
 
