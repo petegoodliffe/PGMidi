@@ -8,6 +8,9 @@
 
 #import "PGMidiInput.h"
 
+// For some reason, this is nut pulled in by the umbrella header
+#import <CoreMIDI/MIDINetworkSession.h>
+
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %u:%@", str, c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
 
@@ -67,6 +70,14 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     }
 
     [super dealloc];
+}
+
+- (void) enableNetwork:(BOOL)enabled
+{
+    MIDINetworkSession* session = [MIDINetworkSession defaultSession];
+
+    session.enabled          = YES;
+    session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 }
 
 //==============================================================================

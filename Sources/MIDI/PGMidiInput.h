@@ -46,6 +46,9 @@
 @property (nonatomic,assign)   id<PGMidiInputDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger              numberOfConnectedDevices;
 
+/// Enables or disables CoreMIDI network connections
+- (void) enableNetwork:(BOOL)enabled;
+
 /// Send a MIDI byte stream to every connected MIDI port
 - (void) sendMidi:(const UInt8*)bytes size:(UInt32)size;
 
