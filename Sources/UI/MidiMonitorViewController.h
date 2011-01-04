@@ -8,20 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@class PGMidiInput;
+@class PGMidi;
 
 @interface MidiMonitorViewController : UIViewController
 {
     UILabel    *countLabel;
     UITextView *textView;
 
-    PGMidiInput *midiInput;
+    PGMidi *midi;
 }
 
 @property (nonatomic,retain) IBOutlet UILabel    *countLabel;
 @property (nonatomic,retain) IBOutlet UITextView *textView;
 
-@property (nonatomic,assign) PGMidiInput *midiInput;
+@property (nonatomic,assign) PGMidi *midi;
 
 - (IBAction) clearTextView;
 - (IBAction) listAllInterfaces;

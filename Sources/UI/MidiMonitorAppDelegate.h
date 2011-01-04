@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class MidiMonitorViewController;
-@class PGMidiInput;
+@class PGMidi;
 
 @interface MidiMonitorAppDelegate : NSObject <UIApplicationDelegate>
 {
     UIWindow                  *window;
     MidiMonitorViewController *viewController;
-    PGMidiInput               *midiInput;
+    PGMidi                    *midi;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow                  *window;

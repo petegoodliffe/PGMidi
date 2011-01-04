@@ -1,5 +1,5 @@
 //
-//  PGMidiInput.h
+//  PGMidi.h
 //  MidiMonitor
 //
 //  Created by Pete Goodliffe on 10/12/10.
@@ -9,41 +9,41 @@
 #import <UIKit/UIKit.h>
 #import <CoreMIDI/CoreMIDI.h>
 
-@class PGMidiInput;
+@class PGMidi;
 
-/// Delegate protocol for PGMidiInput class.
+/// Delegate protocol for PGMidi class.
 /// Adopt this protocol in your object to receive events from MIDI
 ///
 /// IMPORTANT NOTE:
 /// MIDI input is received from a high priority background thread
-@protocol PGMidiInputDelegate
+@protocol PGMidiDelegate
 
 // Raised on main run loop
-- (void) midiInput:(PGMidiInput*)input event:(NSString*)event;
+- (void) midi:(PGMidi*)midi event:(NSString*)event;
 
 /// NOTE: Raised on high-priority background thread.
 ///
 /// To do anything UI-ish, you must forward the event to the main runloop
 /// (e.g. use performSelectorOnMainThread:withObject:waitUntilDone:)
-- (void) midiInput:(PGMidiInput*)input midiReceived:(const MIDIPacketList *)packetList;
+- (void) midi:(PGMidi*)midi midiReceived:(const MIDIPacketList *)packetList;
 
 @end
 
-/// Class for receiving MIDI input from any MIDI device.
+/// Class for receiving MIDI I/O to/from any MIDI device.
 ///
 /// If you intend your app to support iOS 3.x which does not have CoreMIDI
 /// support, weak link to the CoreMIDI framework, and only create a
-/// PGMidiInput object if you are running the right version of iOS.
-@interface PGMidiInput : NSObject
+/// PGMidi object if you are running the right version of iOS.
+@interface PGMidi : NSObject
 {
     MIDIClientRef           client;
     MIDIPortRef             outputPort;
     MIDIPortRef             inputPort;
     NSUInteger              numberOfConnectedDevices;
-    id<PGMidiInputDelegate> delegate;
+    id<PGMidiDelegate> delegate;
 }
 
-@property (nonatomic,assign)   id<PGMidiInputDelegate> delegate;
+@property (nonatomic,assign)   id<PGMidiDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger              numberOfConnectedDevices;
 
 /// Enables or disables CoreMIDI network connections
@@ -57,4 +57,4 @@
 /// Dump a list of MIDI interfaces as events on this delegate.
 ///
 /// A helpful diagnostic, and an example of how to enumerate devices
-NSUInteger ListInterfaces(id<PGMidiInputDelegate> delegate);
+NSUInteger ListInterfaces(id<PGMidiDelegate> delegate);

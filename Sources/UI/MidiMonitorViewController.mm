@@ -8,13 +8,13 @@
 
 #import "MidiMonitorViewController.h"
 
-#import "PGMidiInput.h"
+#import "PGMidi.h"
 #import "iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
-@interface MidiMonitorViewController () <PGMidiInputDelegate>
+@interface MidiMonitorViewController () <PGMidiDelegate>
 - (void) updateCountLabel;
 - (void) addString:(NSString*)string;
 - (void) sendMidiDataInBackground;
@@ -22,11 +22,11 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
 @implementation MidiMonitorViewController
 
-#pragma mark MidiInputDelegate
+#pragma mark PGMidiDelegate
 
 @synthesize countLabel;
 @synthesize textView;
-@synthesize midiInput;
+@synthesize midi;
 
 #pragma mark UIViewController
 
@@ -67,11 +67,11 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
 #pragma mark Shenanigans
 
-- (void) setMidiInput:(PGMidiInput*)mi
+- (void) setMidi:(PGMidi*)m
 {
-    midiInput.delegate = nil;
-    midiInput = mi;
-    midiInput.delegate = self;
+    midi.delegate = nil;
+    midi = m;
+    midi.delegate = self;
 }
 
 - (void) addString:(NSString*)string
@@ -81,10 +81,10 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
 - (void) updateCountLabel
 {
-    countLabel.text = [NSString stringWithFormat:@"%u", midiInput.numberOfConnectedDevices];
+    countLabel.text = [NSString stringWithFormat:@"%u", midi.numberOfConnectedDevices];
 }
 
-- (void) midiInput:(PGMidiInput*)input event:(NSString*)event
+- (void) midi:(PGMidi*)midi event:(NSString*)event
 {
     [self updateCountLabel];
     [self addString:event];
@@ -100,7 +100,7 @@ NSString *StringFromPacket(const MIDIPacket *packet)
            ];
 }
 
-- (void) midiInput:(PGMidiInput*)input midiReceived:(const MIDIPacketList *)packetList
+- (void) midi:(PGMidi*)midi midiReceived:(const MIDIPacketList *)packetList
 {
     [self performSelectorOnMainThread:@selector(addString:)
                            withObject:@"MIDI received:"
@@ -124,9 +124,9 @@ NSString *StringFromPacket(const MIDIPacket *packet)
         const UInt8 noteOn[]  = { 0x90, note, 127 };
         const UInt8 noteOff[] = { 0x80, note, 0   };
 
-        [midiInput sendMidi:noteOn size:sizeof(noteOn)];
+        [midi sendMidi:noteOn size:sizeof(noteOn)];
         [NSThread sleepForTimeInterval:0.1];
-        [midiInput sendMidi:noteOff size:sizeof(noteOff)];
+        [midi sendMidi:noteOff size:sizeof(noteOff)];
     }
 }
 

@@ -1,12 +1,12 @@
 //
-//  PGMidiInput.m
+//  PGMidi.m
 //  MidiMonitor
 //
 //  Created by Pete Goodliffe on 10/12/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "PGMidiInput.h"
+#import "PGMidi.h"
 
 // For some reason, this is nut pulled in by the umbrella header
 #import <CoreMIDI/MIDINetworkSession.h>
@@ -19,13 +19,13 @@
 void MyMIDINotifyProc(const MIDINotification *message, void *refCon);
 void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon);
 
-@interface PGMidiInput ()
+@interface PGMidi ()
 - (void) scanExistingDevices;
 @end
 
 //==============================================================================
 
-@implementation PGMidiInput
+@implementation PGMidi
 
 @synthesize delegate;
 @synthesize numberOfConnectedDevices;
@@ -105,8 +105,8 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
 - (void) connectSource:(MIDIEndpointRef)source
 {
     ++numberOfConnectedDevices;
-    [delegate midiInput:self
-                  event:[NSString stringWithFormat:@"Added a source: %@", DescrptionOfEndpoint(source)]];
+    [delegate midi:self
+             event:[NSString stringWithFormat:@"Added a source: %@", DescrptionOfEndpoint(source)]];
 
     OSStatus s = MIDIPortConnectSource(inputPort, source, self);
     NSLogError(s, @"Connecting to MIDI source");
@@ -115,7 +115,7 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
 - (void) disconnectSource:(MIDIEndpointRef)source
 {
     --numberOfConnectedDevices;
-    [delegate midiInput:self event:@"Removed a source"];
+    [delegate midi:self event:@"Removed a source"];
 
     OSStatus s = MIDIPortDisconnectSource(inputPort, source);
     NSLogError(s, @"Disconnecting from MIDI source");
@@ -123,12 +123,12 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
 
 - (void) connectDestination:(MIDIEndpointRef)destination
 {
-    [delegate midiInput:self event:@"Added a destination"];
+    [delegate midi:self event:@"Added a destination"];
 }
 
 - (void) disconnectDestination:(MIDIEndpointRef)destination
 {
-    [delegate midiInput:self event:@"Removed a device"];
+     [delegate midi:self event:@"Removed a device"];
 }
 
 - (void) scanExistingDevices
@@ -184,7 +184,7 @@ NSString *DescrptionOfEndpoint(MIDIEndpointRef ref)
 
 void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 {
-    PGMidiInput *self = (PGMidiInput*)refCon;
+    PGMidi *self = (PGMidi*)refCon;
     [self midiNotify:message];
 }
 
@@ -194,12 +194,12 @@ void MyMIDINotifyProc(const MIDINotification *message, void *refCon)
 // NOTE: Called on a separate high-priority thread, not the main runloop
 - (void) midiRead:(const MIDIPacketList *)pktlist
 {
-    [delegate midiInput:self midiReceived:pktlist];
+    [delegate midi:self midiReceived:pktlist];
 }
 
 void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    PGMidiInput *self = (PGMidiInput*)readProcRefCon;
+    PGMidi *self = (PGMidi*)readProcRefCon;
     [self midiRead:pktlist];
 }
 
@@ -232,10 +232,10 @@ void MyMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 //==============================================================================
 
-NSUInteger ListInterfaces(id<PGMidiInputDelegate> delegate)
+NSUInteger ListInterfaces(id<PGMidiDelegate> delegate)
 {
 //#define PGLog NSLog
-#define PGLog(...) [delegate midiInput:nil event:[NSString stringWithFormat:__VA_ARGS__]]
+#define PGLog(...) [delegate midi:nil event:[NSString stringWithFormat:__VA_ARGS__]]
     PGLog(@"%s: # external devices=%u", __func__, MIDIGetNumberOfExternalDevices());
     PGLog(@"%s: # devices=%u",          __func__, MIDIGetNumberOfDevices());
     PGLog(@"%s: # sources=%u",          __func__, MIDIGetNumberOfSources());
