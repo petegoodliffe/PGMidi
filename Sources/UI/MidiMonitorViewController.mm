@@ -76,7 +76,11 @@ UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
 
 - (void) addString:(NSString*)string
 {
-    textView.text = [textView.text stringByAppendingFormat:@"\n%@", string];
+    NSString *newText = [textView.text stringByAppendingFormat:@"\n%@", string];
+    textView.text = newText;
+
+    if (newText.length)
+        [textView scrollRangeToVisible:(NSRange){newText.length-1, 1}];
 }
 
 - (void) updateCountLabel
