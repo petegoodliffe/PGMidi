@@ -66,13 +66,13 @@ NSString *ToString(PGMidiConnection *connection)
         [self addString:@"\n\nInterface list:"];
         for (PGMidiSource *source in midi.sources)
         {
-            NSString *description = [NSString stringWithFormat:@"Source: %@", source];
+            NSString *description = [NSString stringWithFormat:@"Source: %@", ToString(source)];
             [self addString:description];
         }
         [self addString:@""];
         for (PGMidiDestination *destination in midi.sources)
         {
-            NSString *description = [NSString stringWithFormat:@"Destination: %@", destination];
+            NSString *description = [NSString stringWithFormat:@"Destination: %@", ToString(destination)];
             [self addString:description];
         }
     })
