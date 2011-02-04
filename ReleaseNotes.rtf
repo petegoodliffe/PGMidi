@@ -1,4 +1,4 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
 {\fonttbl\f0\fswiss\fcharset0 ArialMT;}
 {\colortbl;\red255\green255\blue255;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
@@ -6,13 +6,14 @@
 {\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
 {\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
 {\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}
-{\list\listtemplateid6\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid501\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid6}}
-{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid501\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid601\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid7}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}}
 \vieww11740\viewh13380\viewkind0
 \deftab720
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls1\ilvl0
-\f0\b\fs48 \cf0 MidiMonitor Release Notes\
+\f0\b\fs48 \cf0 PGMidi/MidiMonitor Release Notes\
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls1\ilvl0
 \b0\fs26 \cf0 \
@@ -23,7 +24,7 @@
 				pete@goodliffe.net\
 	
 \b Date:
-\b0 		2010-10-14\
+\b0 		2011-02-04\
 	
 \b Copyright:
 \b0 	\'a9 2010 Pete Goodliffe. All rights reserved.\
@@ -32,12 +33,16 @@
 \ls2\ilvl0\cf0 \
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls2\ilvl0
-\b\fs32 \cf0 What is MidiMonitor?\
+\b\fs32 \cf0 What is PGMidi and MidiMonitor?\
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
 \ls2\ilvl0
 \b0\fs26 \cf0 \
 \pard\tx220\tx720\pardeftab720\li20\fi-20\ql\qnatural
 \ls2\ilvl0\cf0 This is a simple example project to illustrate how to use the CoreMIDI framework in your own iOS application. It doesn't illustrate the entire CoreMIDI API, but will give you a suitable head start into the API. (I couldn't find any good examples myself when I needed some.)\
+\
+The 
+\b PGMidi
+\b0  classes are pretty full featured and easy to incorporate into your own project. Many MIDI apps have just pulled in these classes verbatim.\
 \pard\tx220\tx720\pardeftab720\li20\fi-20\ql\qnatural
 \ls2\ilvl0
 \i \cf0 \
@@ -59,7 +64,7 @@ It works on iPhones or iPads, but will only do something useful if the device is
 Look inside the 
 \i Sources/MIDI
 \i0  directory. There is a neat standalone class called 
-\i MidiInput
+\i PGMidi
 \i0  that does all the heavy lifting. it has a delegate interface through which it reports events.\
 \
 In the MIDI directory is also a header that will help you selectively enable MIDI functionality in your application.\
@@ -76,7 +81,7 @@ Remember to link against CoreMIDI
 \pard\tx220\tx720\pardeftab720\li20\fi-20\ql\qnatural
 \ls4\ilvl0
 \b0\fs26 \cf0 \
-Feel free to incorporate this code in your own applications. I'd appreciate hearing from you if you do so. It's nice to know that I've been helpul. Attribution is welcomed, but not required.\
+Feel free to incorporate this code in your own applications. I'd appreciate hearing from you if you do so. It's nice to know that I've been helpful. Attribution is welcomed, but not required.\
 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
 \cf0 \
@@ -88,11 +93,20 @@ Feel free to incorporate this code in your own applications. I'd appreciate hear
 \cf0 \
 \pard\tx560\pardeftab720\ql\qnatural
 
+\b \cf0 Build 3 
+\b0 (2011-02-04)\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
+\ls5\ilvl0\cf0 {\listtext	\'95	}Updated the PGMidi API to make it a lot more featured.\
+\pard\tx560\pardeftab720\ql\qnatural
+\cf0 \
+\pard\tx560\pardeftab720\ql\qnatural
+
 \b \cf0 Build 2 
 \b0 (2010-11-02)\
 \
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
-\ls5\ilvl0\cf0 {\listtext	\'95	}Added MIDI output to the project.\
+\ls6\ilvl0\cf0 {\listtext	\'95	}Added MIDI output to the project.\
 \pard\tx560\pardeftab720\ql\qnatural
 \cf0 \
 \pard\tx560\pardeftab720\ql\qnatural
@@ -101,7 +115,7 @@ Feel free to incorporate this code in your own applications. I'd appreciate hear
 \b0 (2010-10-14)\
 \
 \pard\tx220\tx720\pardeftab720\li720\fi-720\ql\qnatural
-\ls6\ilvl0\cf0 {\listtext	\'95	}Initial version\
+\ls7\ilvl0\cf0 {\listtext	\'95	}Initial version\
 \pard\tx560\pardeftab720\ql\qnatural
 \cf0 \
 }
