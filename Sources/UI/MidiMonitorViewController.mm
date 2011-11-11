@@ -85,11 +85,21 @@ NSString *ToString(PGMidiConnection *connection)
 
 #pragma mark Shenanigans
 
+- (void) attachToAllExistingSources
+{
+    for (PGMidiSource *source in midi.sources)
+    {
+        source.delegate = self;
+    }
+}
+
 - (void) setMidi:(PGMidi*)m
 {
     midi.delegate = nil;
     midi = m;
     midi.delegate = self;
+
+    [self attachToAllExistingSources];
 }
 
 - (void) addString:(NSString*)string
