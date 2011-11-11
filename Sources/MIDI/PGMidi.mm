@@ -12,7 +12,7 @@
 #import <CoreMIDI/MIDINetworkSession.h>
 
 /// A helper that NSLogs an error message if "c" is an error code
-#define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %u:%@", str, c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
+#define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
 
 //==============================================================================
 
