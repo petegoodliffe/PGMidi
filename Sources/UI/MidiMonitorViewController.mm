@@ -70,7 +70,7 @@ NSString *ToString(PGMidiConnection *connection)
             [self addString:description];
         }
         [self addString:@""];
-        for (PGMidiDestination *destination in midi.sources)
+        for (PGMidiDestination *destination in midi.destinations)
         {
             NSString *description = [NSString stringWithFormat:@"Destination: %@", ToString(destination)];
             [self addString:description];
