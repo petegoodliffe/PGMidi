@@ -129,14 +129,14 @@
 			isa = PBXGroup;
 			children = (
 				080E96DDFE201D6D7F000001 /* UI */,
-				C1763E6A1266F69F0032E953 /* MIDI */,
+				C1763E6A1266F69F0032E953 /* PGMidi */,
 				32CA4F630368D1EE00C91783 /* MidiMonitor_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		C1763E6A1266F69F0032E953 /* MIDI */ = {
+		C1763E6A1266F69F0032E953 /* PGMidi */ = {
 			isa = PBXGroup;
 			children = (
 				C1763E6F1266F7F60032E953 /* iOSVersionDetection.h */,
@@ -147,7 +147,7 @@
 				C1314AC012FC259B0073005E /* PGMidiFind.h */,
 				C1314AC112FC259B0073005E /* PGMidiFind.mm */,
 			);
-			path = MIDI;
+			path = PGMidi;
 			sourceTree = "<group>";
 		};
 		C1763E751266FAC60032E953 /* XIBs */ = {
