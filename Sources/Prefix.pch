@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'MidiMonitor' target in the 'MidiMonitor' project
+// Prefix header
 //
 
 #ifdef __OBJC__

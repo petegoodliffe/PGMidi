@@ -39,7 +39,7 @@
 		28D7ACF60DDB3853001CB0EB /* MidiMonitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiMonitorViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiMonitorViewController.mm; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* MidiMonitor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiMonitor_Prefix.pch; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MidiMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MidiMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C1314ABE12FC259B0073005E /* PGMidiAllSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiAllSources.h; sourceTree = "<group>"; };
 		C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 			children = (
 				080E96DDFE201D6D7F000001 /* UI */,
 				C1763E6A1266F69F0032E953 /* PGMidi */,
-				32CA4F630368D1EE00C91783 /* MidiMonitor_Prefix.pch */,
+				32CA4F630368D1EE00C91783 /* Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			path = Sources;
@@ -258,7 +258,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Sources/MidiMonitor_Prefix.pch;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "Resources/MidiMonitor-Info.plist";
 				PRODUCT_NAME = MidiMonitor;
 				SDKROOT = iphoneos;
@@ -272,7 +272,7 @@
 				CODE_SIGN_ENTITLEMENTS = Resources/Entitlements.plist;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Sources/MidiMonitor_Prefix.pch;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
 				INFOPLIST_FILE = "Resources/MidiMonitor-Info.plist";
 				PRODUCT_NAME = MidiMonitor;
 				SDKROOT = iphoneos;
