@@ -20,13 +20,15 @@ The demo application presents a message when MIDI devices are attached and detac
 
 It works on iPhones or iPads, but will only do something useful if the device is running iOS 4.2 or higher (CoreMidi is not available in earlier iOS versions).
 
+The latest version of the project supports ARC and non-ARC projects from the same source.
+
 
 What to look at
 ---------------
 
-Look inside the Sources/MIDI directory. There is a neat standalone class called `PGMidi` that does all the heavy lifting. It has a delegate interface through which it reports events.
+Look inside the Sources/PGMidi directory. There is a neat standalone class called `PGMidi` that does all the heavy lifting. It has a delegate interface through which it reports events.
 
-In the MIDI directory is also a header that will help you selectively enable MIDI functionality in your application.
+In the PGMidi directory is also a header that will help you selectively enable MIDI functionality in your application.
 
 Remember to link against CoreMidi weakly if you want to support devices running iOS version earlier than 4.2.
 
