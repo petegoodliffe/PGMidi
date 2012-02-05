@@ -1,9 +1,6 @@
 //
 //  PGMidiAllSources.h
-//  LXAB Test
-//
-//  Created by Pete Goodliffe on 31/01/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  PGMidi
 //
 
 #import <Foundation/Foundation.h>
