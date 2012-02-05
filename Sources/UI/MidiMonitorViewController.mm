@@ -12,7 +12,7 @@
 #import "iOSVersionDetection.h"
 #import <CoreMIDI/CoreMIDI.h>
 
-UInt8 RandomNoteNumber() { return rand() / (RAND_MAX / 127); }
+UInt8 RandomNoteNumber() { return UInt8(rand() / (RAND_MAX / 127)); }
 
 @interface MidiMonitorViewController () <PGMidiDelegate, PGMidiSourceDelegate>
 - (void) updateCountLabel;
