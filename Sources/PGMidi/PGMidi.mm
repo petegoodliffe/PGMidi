@@ -5,11 +5,17 @@
 
 #import "PGMidi.h"
 
+#import "PGArc.h"
+
 // For some reason, this is nut pulled in by the umbrella header
 #import <CoreMIDI/MIDINetworkSession.h>
 
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
+
+//==============================================================================
+// ARC
+
 
 //==============================================================================
 
@@ -40,7 +46,7 @@ NSString *NameOfEndpoint(MIDIEndpointRef ref)
     else
     {
         //NSLog(@"Properties = %@", properties);
-        NSDictionary *dictionary = (NSDictionary*)properties;
+        NSDictionary *dictionary = arc_cast<NSDictionary>(properties);
         string = [NSString stringWithFormat:@"%@", [dictionary valueForKey:@"name"]];
         CFRelease(properties);
     }
@@ -59,7 +65,7 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
     OSStatus s = MIDIObjectGetProperties(entity, &properties, true);
     if (!s)
     {
-        NSDictionary *dictionary = (NSDictionary*)properties;
+        NSDictionary *dictionary = arc_cast<NSDictionary>(properties);
         hasMidiRtpKey = [dictionary valueForKey:@"apple.midirtp.session"] != nil;
         CFRelease(properties);
     }
@@ -82,7 +88,11 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
     {
         midi                = m;
         endpoint            = e;
+#if ! __has_feature(objc_arc)
         name                = [NameOfEndpoint(e) retain];
+#else
+        name                = NameOfEndpoint(e);
+#endif
         isNetworkSession    = IsNetworkSession(e);
     }
     return self;
@@ -113,7 +123,7 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 static
 void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    PGMidiSource *self = (PGMidiSource*)srcConnRefCon;
+    PGMidiSource *self = arc_cast<PGMidiSource>(srcConnRefCon);
     [self midiRead:pktlist];
 }
 
@@ -168,13 +178,13 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         sources      = [NSMutableArray new];
         destinations = [NSMutableArray new];
 
-        OSStatus s = MIDIClientCreate((CFStringRef)@"MidiMonitor MIDI Client", PGMIDINotifyProc, self, &client);
+        OSStatus s = MIDIClientCreate((CFStringRef)@"MidiMonitor MIDI Client", PGMIDINotifyProc, arc_cast<void>(self), &client);
         NSLogError(s, @"Create MIDI client");
 
         s = MIDIOutputPortCreate(client, (CFStringRef)@"MidiMonitor Output Port", &outputPort);
         NSLogError(s, @"Create output MIDI port");
 
-        s = MIDIInputPortCreate(client, (CFStringRef)@"MidiMonitor Input Port", PGMIDIReadProc, self, &inputPort);
+        s = MIDIInputPortCreate(client, (CFStringRef)@"MidiMonitor Input Port", PGMIDIReadProc, arc_cast<void>(self), &inputPort);
         NSLogError(s, @"Create input MIDI port");
 
         [self scanExistingDevices];
@@ -203,10 +213,11 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         NSLogError(s, @"Dispose MIDI client");
     }
 
+#if ! __has_feature(objc_arc)
     [sources release];
     [destinations release];
-
     [super dealloc];
+#endif
 }
 
 - (NSUInteger) numberOfConnections
@@ -253,7 +264,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     [sources addObject:source];
     [delegate midi:self sourceAdded:source];
 
-    OSStatus s = MIDIPortConnectSource(inputPort, endpoint, source);
+    OSStatus s = MIDIPortConnectSource(inputPort, endpoint, arc_cast<void>(source));
     NSLogError(s, @"Connecting to MIDI source");
 }
 
@@ -269,7 +280,9 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         [delegate midi:self sourceRemoved:source];
 
         [sources removeObject:source];
+#if ! __has_feature(objc_arc)
         [source release];
+#endif
     }
 }
 
@@ -291,7 +304,9 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     {
         [delegate midi:self destinationRemoved:destination];
         [destinations removeObject:destination];
+#if ! __has_feature(objc_arc)
         [destination release];
+#endif
     }
 }
 
@@ -346,7 +361,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 void PGMIDINotifyProc(const MIDINotification *message, void *refCon)
 {
-    PGMidi *self = (PGMidi*)refCon;
+    PGMidi *self = arc_cast<PGMidi>(refCon);
     [self midiNotify:message];
 }
 

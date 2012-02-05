@@ -6,6 +6,7 @@
 #import "PGMidiAllSources.h"
 
 #import "PGMidi.h"
+#import "PGArc.h"
 
 @interface PGMidiAllSources () <PGMidiDelegate, PGMidiSourceDelegate>
 @end
@@ -15,7 +16,9 @@
 - (void) dealloc
 {
     self.midi = nil;
+#if ! __has_feature(objc_arc)
     [super dealloc];
+#endif
 }
 
 @synthesize midi, delegate;

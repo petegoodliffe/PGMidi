@@ -65,7 +65,11 @@
 {
     id<PGMidiSourceDelegate> delegate;
 }
-@property (nonatomic,assign)   id<PGMidiSourceDelegate> delegate;
+#if ! __has_feature(objc_arc)
+@property (nonatomic,assign) id<PGMidiSourceDelegate> delegate;
+#else
+@property (nonatomic,strong) id<PGMidiSourceDelegate> delegate;
+#endif
 @end
 
 //==============================================================================
@@ -106,7 +110,12 @@
     NSMutableArray    *sources, *destinations;
 }
 
-@property (nonatomic,assign)   id<PGMidiDelegate> delegate;
+#if ! __has_feature(objc_arc)
+@property (nonatomic,assign) id<PGMidiDelegate> delegate;
+#else
+@property (nonatomic,strong) id<PGMidiDelegate> delegate;
+#endif
+
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
 @property (nonatomic,readonly) NSMutableArray    *destinations;
