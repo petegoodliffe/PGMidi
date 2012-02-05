@@ -17,6 +17,7 @@
 		28D7ACF80DDB3853001CB0EB /* MidiMonitorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.mm */; };
 		C1314AC212FC259B0073005E /* PGMidiAllSources.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */; };
 		C1314AC312FC259B0073005E /* PGMidiFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1314AC112FC259B0073005E /* PGMidiFind.mm */; };
+		C139406214DF28FA0054551E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C139406114DF28FA0054551E /* README.md */; };
 		C1763E421266F0190032E953 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1763E411266F0190032E953 /* CoreMIDI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C1763E721266F7F60032E953 /* PGMidi.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1763E711266F7F60032E953 /* PGMidi.mm */; };
 		C1763E811266FAEB0032E953 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = C1763E801266FAEB0032E953 /* Icon-72.png */; };
@@ -44,6 +45,7 @@
 		C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
 		C1314AC012FC259B0073005E /* PGMidiFind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiFind.h; sourceTree = "<group>"; };
 		C1314AC112FC259B0073005E /* PGMidiFind.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiFind.mm; sourceTree = "<group>"; };
+		C139406114DF28FA0054551E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		C1763E411266F0190032E953 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		C1763E6F1266F7F60032E953 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
 		C1763E701266F7F60032E953 /* PGMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidi.h; sourceTree = "<group>"; };
@@ -52,7 +54,6 @@
 		C1763EBA1266FC920032E953 /* MainWindow-iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPhone.xib"; sourceTree = "<group>"; };
 		C1763EDB1266FFBE0032E953 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C1763FE212672EEC0032E953 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		C17642B6126855D70032E953 /* ReleaseNotes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReleaseNotes.rtf; sourceTree = "<group>"; };
 		C1FFC85A12798CAF003DD5CD /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,7 +94,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				C17642B6126855D70032E953 /* ReleaseNotes.rtf */,
+				C139406114DF28FA0054551E /* README.md */,
 				C1763E401266EFB60032E953 /* Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -194,7 +195,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MidiMonitor" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PGMidi" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -225,6 +226,7 @@
 				C1763EDC1266FFBE0032E953 /* Icon.png in Resources */,
 				C1763FE312672EEC0032E953 /* Default.png in Resources */,
 				C1FFC85B12798CAF003DD5CD /* Entitlements.plist in Resources */,
+				C139406214DF28FA0054551E /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +349,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MidiMonitor" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "PGMidi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
