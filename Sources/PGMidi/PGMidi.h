@@ -6,6 +6,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreMIDI/CoreMIDI.h>
 
+#import "PGArc.h"
+
 @class PGMidi;
 @class PGMidiSource;
 
@@ -65,11 +67,7 @@
 {
     id<PGMidiSourceDelegate> delegate;
 }
-#if ! __has_feature(objc_arc)
-@property (nonatomic,assign) id<PGMidiSourceDelegate> delegate;
-#else
-@property (nonatomic,strong) id<PGMidiSourceDelegate> delegate;
-#endif
+@property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiSourceDelegate> delegate;
 @end
 
 //==============================================================================
@@ -110,11 +108,7 @@
     NSMutableArray    *sources, *destinations;
 }
 
-#if ! __has_feature(objc_arc)
-@property (nonatomic,assign) id<PGMidiDelegate> delegate;
-#else
-@property (nonatomic,strong) id<PGMidiDelegate> delegate;
-#endif
+@property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiDelegate> delegate;
 
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
