@@ -6,7 +6,24 @@
 #pragma once
 
 //==============================================================================
-#if __has_feature(objc_arc)
+// Cope gracefully if we're not using LLVM3
+
+#ifndef __has_feature
+    #define __has_feature(x) 0
+#endif
+
+#ifndef __has_extension
+    #define __has_extension __has_feature
+#endif
+
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+    #define PGMIDI_ARC 1
+#else
+    #define PGMIDI_ARC 0
+#endif
+
+//==============================================================================
+#if PGMIDI_ARC
 
 #ifdef __cplusplus
 

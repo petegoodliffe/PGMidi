@@ -88,7 +88,7 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
     {
         midi                = m;
         endpoint            = e;
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
         name                = [NameOfEndpoint(e) retain];
 #else
         name                = NameOfEndpoint(e);
@@ -213,7 +213,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         NSLogError(s, @"Dispose MIDI client");
     }
 
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
     [sources release];
     [destinations release];
     [super dealloc];
@@ -280,7 +280,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         [delegate midi:self sourceRemoved:source];
 
         [sources removeObject:source];
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
         [source release];
 #endif
     }
@@ -304,7 +304,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     {
         [delegate midi:self destinationRemoved:destination];
         [destinations removeObject:destination];
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
         [destination release];
 #endif
     }

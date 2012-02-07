@@ -16,7 +16,7 @@
 - (void) dealloc
 {
     self.midi = nil;
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
     [super dealloc];
 #endif
 }

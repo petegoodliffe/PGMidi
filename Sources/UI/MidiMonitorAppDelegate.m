@@ -11,6 +11,7 @@
 #import "MidiMonitorViewController.h"
 #import "PGMidi.h"
 #import "iOSVersionDetection.h"
+#import "PGArc.h"
 
 @implementation MidiMonitorAppDelegate
 
@@ -35,7 +36,7 @@
 
 - (void)dealloc
 {
-#if ! __has_feature(objc_arc)
+#if ! PGMIDI_ARC
     [viewController release];
     [window release];
     [super dealloc];
