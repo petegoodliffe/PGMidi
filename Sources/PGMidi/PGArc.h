@@ -31,7 +31,9 @@ template <typename OBJC_TYPE, typename SOURCE_TYPE>
 inline
 OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
 {
-    return (__bridge OBJC_TYPE*)source;
+    @autoreleasepool {
+        return (__bridge OBJC_TYPE*)source;
+    }
 }
 
 #endif
