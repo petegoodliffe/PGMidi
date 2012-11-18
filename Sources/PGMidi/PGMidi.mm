@@ -233,7 +233,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 - (void) enableNetwork:(BOOL)enabled
 {
     MIDINetworkSession* session = [MIDINetworkSession defaultSession];
-    session.enabled = YES;
+    session.enabled = enabled;
     session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 }
 
