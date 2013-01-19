@@ -44,12 +44,14 @@
 
 @protocol PGMidiSessionDelegate;
 
-@interface PGMidiSession : NSObject
+@interface PGMidiSession : NSObject <PGMidiSourceDelegate>
 
 @property (nonatomic, PGMIDI_DELEGATE_PROPERTY) id<PGMidiSessionDelegate> delegate;
 @property (nonatomic, strong) PGMidi *midi;
 
 + (PGMidiSession *) sharedSession;
+- (void) sendCC:(int)cc value:(int)val;
+- (void) sendNote:(int)cc velocity:(int)val;
 
 @end
 
