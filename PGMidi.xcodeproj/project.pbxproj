@@ -15,6 +15,7 @@
 		2899E5220DE3E06400AC0155 /* MidiMonitorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MidiMonitorViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MidiMonitorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.mm */; };
+		37A80D1D16AB448F00D4019D /* PGMidiSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A80D1C16AB448F00D4019D /* PGMidiSession.m */; };
 		C1314AC212FC259B0073005E /* PGMidiAllSources.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */; };
 		C1314AC312FC259B0073005E /* PGMidiFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1314AC112FC259B0073005E /* PGMidiFind.mm */; };
 		C139406214DF28FA0054551E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C139406114DF28FA0054551E /* README.md */; };
@@ -40,6 +41,8 @@
 		28D7ACF70DDB3853001CB0EB /* MidiMonitorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MidiMonitorViewController.mm; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		37A80D1B16AB448F00D4019D /* PGMidiSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiSession.h; sourceTree = "<group>"; };
+		37A80D1C16AB448F00D4019D /* PGMidiSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMidiSession.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MidiMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MidiMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		C1314ABE12FC259B0073005E /* PGMidiAllSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiAllSources.h; sourceTree = "<group>"; };
 		C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
@@ -148,6 +151,8 @@
 				C1314ABF12FC259B0073005E /* PGMidiAllSources.mm */,
 				C1314AC012FC259B0073005E /* PGMidiFind.h */,
 				C1314AC112FC259B0073005E /* PGMidiFind.mm */,
+				37A80D1B16AB448F00D4019D /* PGMidiSession.h */,
+				37A80D1C16AB448F00D4019D /* PGMidiSession.m */,
 			);
 			path = PGMidi;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 				C1763E721266F7F60032E953 /* PGMidi.mm in Sources */,
 				C1314AC212FC259B0073005E /* PGMidiAllSources.mm in Sources */,
 				C1314AC312FC259B0073005E /* PGMidiFind.mm in Sources */,
+				37A80D1D16AB448F00D4019D /* PGMidiSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
