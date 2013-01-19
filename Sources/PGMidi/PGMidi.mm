@@ -326,6 +326,15 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
         [self connectSource:MIDIGetSource(index)];
 }
 
+- (void) setAutomaticSourceDelegate:(id<PGMidiSourceDelegate>)asd
+{
+	automaticSourceDelegate = asd;
+	for (PGMidiSource *source in sources)
+	{
+		source.delegate = asd;
+	}
+}
+
 //==============================================================================
 #pragma mark Notifications
 
