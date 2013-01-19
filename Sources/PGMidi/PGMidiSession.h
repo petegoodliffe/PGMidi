@@ -48,13 +48,15 @@
 
 @property (nonatomic, PGMIDI_DELEGATE_PROPERTY) id<PGMidiSessionDelegate> delegate;
 @property (nonatomic, strong) PGMidi *midi;
+@property (nonatomic) double bpm;
 
 + (PGMidiSession *) sharedSession;
+
 - (void) sendCC:(int)cc value:(int)val;
-- (void) sendNote:(int)cc velocity:(int)val;
+- (void) sendNote:(int)cc velocity:(int)vel;
 
 @end
 
 @protocol PGMidiSessionDelegate <NSObject>
-@end
 
+@end
