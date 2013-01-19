@@ -54,20 +54,23 @@ static PGMidiSession *shared = nil;
 		midi = [[PGMidi alloc] init];
 		midi.automaticSourceDelegate = self;
         [midi enableNetwork:YES];
+		
+		bpm = -1; //signifies no MIDI clock in
 	}
 	return self;
 }
 
 /* Taken from http://stackoverflow.com/questions/13562714/calculate-accurate-bpm-from-midi-clock-in-objc-with-coremidi */
-- (void) midiSource:(PGMidiSource*)input midiReceived:(const MIDIPacketList *)packetList
+- (void) midiSource:(PGMidiSource *)source midiReceived:(const MIDIPacketList *)packetList
 {
 	MIDIPacket *packet = (MIDIPacket*)&packetList->packet[0];
     for (int i = 0; i < packetList->numPackets; ++i)
     {
-        int statusByte = packet->data[0];
+		Byte *data = packet->data;
+        int statusByte = data[0];
         int status = statusByte >= 0xf0 ? statusByte : statusByte & 0xF0;
 		
-        if(status == VVMIDIClockVal)
+        if (status == VVMIDIClockVal)
         {
             previousClockTime = currentClockTime;
             currentClockTime = packet->timeStamp;
@@ -78,6 +81,20 @@ static PGMidiSession *shared = nil;
                 bpm = (1000000 / intervalInNanoseconds / 24) * 60;
             }
         }
+		else if (status == VVMIDINoteOnVal)
+		{	
+			dispatch_async(dispatch_get_main_queue(), ^
+						   {
+							   [delegate midiSource:source sentNote:data[1] velocity:data[2]];
+						   });
+		}
+		else if (status == VVMIDIControlChangeVal)
+		{
+			dispatch_async(dispatch_get_main_queue(), ^
+						   {
+							   [delegate midiSource:source sentCC:data[1] value:data[2]];
+						   });
+		}
 		
         packet = MIDIPacketNext(packet);
     }

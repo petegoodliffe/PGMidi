@@ -59,4 +59,7 @@
 
 @protocol PGMidiSessionDelegate <NSObject>
 
+- (void) midiSource:(PGMidiSource *)source sentNote:(int)note velocity:(int)vel;
+- (void) midiSource:(PGMidiSource *)source sentCC:(int)cc value:(int)val;
+
 @end
