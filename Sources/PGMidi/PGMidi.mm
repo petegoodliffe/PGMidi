@@ -170,6 +170,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 @synthesize delegate;
 @synthesize sources,destinations;
+@synthesize automaticSourceDelegate;
 
 - (id) init
 {
@@ -262,6 +263,10 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 {
     PGMidiSource *source = [[PGMidiSource alloc] initWithMidi:self endpoint:endpoint];
     [sources addObject:source];
+	
+	//Attach it to the automaticSourceDelegate as soon as its connected (could be nil)
+	source.delegate = automaticSourceDelegate;
+
     [delegate midi:self sourceAdded:source];
 
     OSStatus s = MIDIPortConnectSource(inputPort, endpoint, arc_cast<void>(source));
