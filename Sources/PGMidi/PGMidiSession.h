@@ -9,37 +9,35 @@
 #import <Foundation/Foundation.h>
 #import "PGMidi.h"
 
-//These definitions taken directly from VVOpenSource (https://code.google.com/p/vvopensource/)
-//THANK YOU!
-
-//	these are all STATUS MESSAGES: all status mesages have bit 7 set.  ONLY status msgs have bit 7 set to 1!
-//	these status messages go to a specific channel (these are voice messages)
-#define VVMIDINoteOffVal 0x80			//	+2 data bytes
-#define VVMIDINoteOnVal 0x90			//	+2 data bytes
-#define VVMIDIAfterTouchVal 0xA0		//	+2 data bytes
-#define VVMIDIControlChangeVal 0xB0		//	+2 data bytes
-#define VVMIDIProgramChangeVal 0xC0		//	+1 data byte
-#define VVMIDIChannelPressureVal 0xD0	//	+1 data byte
-#define VVMIDIPitchWheelVal 0xE0		//	+2 data bytes
-//	these status messages go anywhere/everywhere
-//	0xF0 - 0xF7		system common messages
-#define VVMIDIBeginSysexDumpVal 0xF0	//	signals the start of a sysex dump; unknown amount of data to follow
-#define VVMIDIMTCQuarterFrameVal 0xF1	//	+1 data byte, rep. time code; 0-127
-#define VVMIDISongPosPointerVal 0xF2	//	+ 2 data bytes, rep. 14-bit val; this is MIDI beat on which to start song.
-#define VVMIDISongSelectVal 0xF3		//	+1 data byte, rep. song number; 0-127
-#define VVMIDIUndefinedCommon1Val 0xF4
-#define VVMIDIUndefinedCommon2Val 0xF5
-#define VVMIDITuneRequestVal 0xF6		//	no data bytes!
-#define VVMIDIEndSysexDumpVal 0xF7		//	signals the end of a sysex dump
-//	0xF8 - 0xFF		system realtime messages
-#define VVMIDIClockVal	 0xF8			//	no data bytes! 24 of these per. quarter note/96 per. measure.
-#define VVMIDITickVal 0xF9				//	no data bytes! when master clock playing back, sends 1 tick every 10ms.
-#define VVMIDIStartVal 0xFA				//	no data bytes!
-#define VVMIDIContinueVal 0xFB			//	no data bytes!
-#define VVMIDIStopVal 0xFC				//	no data bytes!
-#define VVMIDIUndefinedRealtime1Val 0xFD
-#define VVMIDIActiveSenseVal 0xFE		//	no data bytes! sent every 300 ms. to make sure device is active
-#define VVMIDIResetVal	 0xFF			//	no data bytes! never received/don't send!
+/*
+ PGMidiSession is an addition to PGMidi specifically designed for use with a DAW.
+ 
+ How do I use this class?
+ It's simple, and requires no client-side setup! You can go right into these (although setting a delegate first thing is preferred to instantiate the singleton and give it time to connect to MIDI sources/destinations).
+ 
+ Sending a note/CC:
+	 [[PGMidiSession sharedSession] sendNote:36];
+	 [[PGMidiSession sharedSession] sendNote:36 velocity:120 length:1];
+	 [[PGMidiSession sharedSession] sendCC:5 value:127];
+ 
+ Accessing BPM:
+	 [PGMidiSession sharedSession].bpm
+ 
+ Receiving MIDI data:
+	 Set [PGMidiSession sharedSession].delegate to a PGMidiSourceDelegate and implement the two delegate methods!
+ 
+ Quantization (the main reason I wrote this class):
+	 [[PGMidiSession sharedSession] performBlock:^{ NSLog(@"HI"); } quantizedToInterval:1];    // Prints "HI" on the next downbeat of a new bar
+	 [[PGMidiSession sharedSession] performBlock:^{ NSLog(@"HI"); } quantizedToInterval:0.25]; // Prints "HI" on the next quarter note
+	 [[PGMidiSession sharedSession] performBlock:^{ NSLog(@"HI"); } quantizedToInterval:1.25]; // Waits till the next bar, then prints "HI" on the next quarter note
+ 
+ 
+ Troubleshooting:
+ 
+ For quantization and BPM to work, the iOS device must be receiving a MIDI clock signal. For quantization, the iOS device has to "see" a MIDI START signal (ie, in a DAW, the play button). It won't work if it's already playing when the device connects.
+ 
+ If you're having trouble setting this whole thing up, remember you can connect your device via network session in Audio MIDI Setup.app, under Network in the MIDI window.
+ */
 
 @protocol PGMidiSessionDelegate;
 
@@ -52,10 +50,11 @@
 
 + (PGMidiSession *) sharedSession;
 
+/* See above for usage. Simple enough */
 - (void) sendCC:(int)cc value:(int)val;
 - (void) sendNote:(int)note;
 - (void) sendNote:(int)cc velocity:(int)vel length:(NSTimeInterval)length;
-- (void) performBlock:(void (^)(void))block quantizedToNumberOfBars:(double)numBarsOrFraction;
+- (void) performBlock:(void (^)(void))block quantizedToInterval:(double)numBarsOrFraction;
 
 @end
 
