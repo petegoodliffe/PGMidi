@@ -109,6 +109,7 @@
 }
 
 @property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiDelegate> delegate;
+@property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiSourceDelegate> automaticSourceDelegate;
 
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
