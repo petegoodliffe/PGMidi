@@ -41,7 +41,6 @@
 #define VVMIDIActiveSenseVal 0xFE		//	no data bytes! sent every 300 ms. to make sure device is active
 #define VVMIDIResetVal	 0xFF			//	no data bytes! never received/don't send!
 
-
 @protocol PGMidiSessionDelegate;
 
 @interface PGMidiSession : NSObject <PGMidiSourceDelegate>
@@ -49,11 +48,14 @@
 @property (nonatomic, PGMIDI_DELEGATE_PROPERTY) id<PGMidiSessionDelegate> delegate;
 @property (nonatomic, strong) PGMidi *midi;
 @property (nonatomic) double bpm;
+@property (nonatomic, getter = isPlaying) BOOL playing;
 
 + (PGMidiSession *) sharedSession;
 
 - (void) sendCC:(int)cc value:(int)val;
-- (void) sendNote:(int)cc velocity:(int)vel;
+- (void) sendNote:(int)note;
+- (void) sendNote:(int)cc velocity:(int)vel length:(NSTimeInterval)length;
+- (void) performBlock:(void (^)(void))block quantizedToNumberOfBars:(double)numBarsOrFraction;
 
 @end
 

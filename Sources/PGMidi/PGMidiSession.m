@@ -8,6 +8,20 @@
 
 #import "PGMidiSession.h"
 
+@interface QuantizedBlock : NSObject
+
+@property (copy) void(^block)();
+@property (nonatomic) double interval;
+@property (nonatomic) int extraBars;
+
+@end
+
+@implementation QuantizedBlock
+@synthesize block, interval, extraBars;
+
+@end
+
+
 #include <mach/mach.h>
 #include <mach/mach_time.h>
 
@@ -30,9 +44,13 @@ uint64_t convertTimeInNanoseconds(uint64_t time)
 {
 	double currentClockTime;
 	double previousClockTime;
+	
+	int num96notes;
+	
+	NSMutableArray *quantizedBlockQueue;
 }
 
-@synthesize midi, delegate, bpm;
+@synthesize midi, delegate, bpm, playing;
 
 static PGMidiSession *shared = nil;
 
@@ -51,6 +69,8 @@ static PGMidiSession *shared = nil;
 	self = [super init];
 	if (self)
 	{
+		quantizedBlockQueue = [[NSMutableArray alloc] init];
+		
 		midi = [[PGMidi alloc] init];
 		midi.automaticSourceDelegate = self;
         [midi enableNetwork:YES];
@@ -60,7 +80,18 @@ static PGMidiSession *shared = nil;
 	return self;
 }
 
-/* Taken from http://stackoverflow.com/questions/13562714/calculate-accurate-bpm-from-midi-clock-in-objc-with-coremidi */
+- (void) performBlock:(void (^)(void))block quantizedToNumberOfBars:(double)bars
+{
+	QuantizedBlock *qb = [[QuantizedBlock alloc] init];
+	qb.block = block;
+	qb.extraBars = (int)bars; //truncate to a whole number
+	qb.interval =  bars-qb.extraBars; //get the decimal part
+	if (qb.interval == 0)
+		qb.interval = 1; //if the interval is on a 1 downbeat it'll be 0
+	NSLog(@"after %d bars, will run at the %d (currently on %d)",qb.extraBars,(int)(qb.interval*96),num96notes);
+	[quantizedBlockQueue addObject:qb];
+}
+
 - (void) midiSource:(PGMidiSource *)source midiReceived:(const MIDIPacketList *)packetList
 {
 	MIDIPacket *packet = (MIDIPacket*)&packetList->packet[0];
@@ -72,6 +103,37 @@ static PGMidiSession *shared = nil;
 		
         if (status == VVMIDIClockVal)
         {
+			if (playing)
+			{
+				/* every MIDI clock packet sent is a 96th note. */
+				/* 0 is the downbeat of 1 */
+				if (num96notes == 0)
+				{
+					for (QuantizedBlock *qb in quantizedBlockQueue)
+					{
+						qb.extraBars--;
+					}
+					NSLog(@"tick");
+				}
+				
+				for (int i = 0; i < quantizedBlockQueue.count; i++)
+				{
+					QuantizedBlock *qb = quantizedBlockQueue[i];
+					int interval = (int)(qb.interval*96);
+					if (num96notes % interval == 0 && qb.extraBars <= 0)
+					{
+						//run the block on the main thread to allow UI updates etc
+						dispatch_async(dispatch_get_main_queue(), qb.block);
+						[quantizedBlockQueue removeObjectAtIndex:i];
+						i--;
+					}
+				}
+
+				num96notes = (num96notes + 1) % 96;
+			}
+			
+			/* BPM calculation taken from http://stackoverflow.com/questions/13562714/calculate-accurate-bpm-from-midi-clock-in-objc-with-coremidi */
+
             previousClockTime = currentClockTime;
             currentClockTime = packet->timeStamp;
 			
@@ -82,7 +144,7 @@ static PGMidiSession *shared = nil;
             }
         }
 		else if (status == VVMIDINoteOnVal)
-		{	
+		{
 			dispatch_async(dispatch_get_main_queue(), ^
 						   {
 							   [delegate midiSource:source sentNote:data[1] velocity:data[2]];
@@ -95,6 +157,16 @@ static PGMidiSession *shared = nil;
 							   [delegate midiSource:source sentCC:data[1] value:data[2]];
 						   });
 		}
+		else if (status == VVMIDIStartVal)
+		{
+			playing = YES;
+			//reset to 0 -- the immediate next MIDI clock signal will be the downbeat of 1
+			num96notes = 0;
+		}
+		else if (status == VVMIDIStopVal)
+		{
+			playing = NO;
+		}
 		
         packet = MIDIPacketNext(packet);
     }
@@ -106,10 +178,22 @@ static PGMidiSession *shared = nil;
 	[midi sendBytes:cntrl size:sizeof(cntrl)];
 }
 
-- (void) sendNote:(int)note velocity:(int)vel
+- (void) sendNote:(int)note
+{
+	[self sendNote:note velocity:127 length:0];
+}
+
+- (void) sendNote:(int)note velocity:(int)vel length:(NSTimeInterval)length
 {
 	const UInt8 noteOn[]  = { VVMIDINoteOnVal, note, vel };
 	[midi sendBytes:noteOn size:sizeof(noteOn)];
+
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, length * NSEC_PER_SEC);
+	dispatch_after(popTime, dispatch_get_main_queue(), ^(void)
+	{
+		const UInt8 noteOff[]  = { VVMIDINoteOffVal, note, vel };
+		[midi sendBytes:noteOff size:sizeof(noteOn)];
+	});
 }
 
 @end
