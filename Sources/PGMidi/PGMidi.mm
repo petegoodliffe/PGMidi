@@ -29,6 +29,7 @@ static void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void
 @interface PGMidi ()
 - (void) scanExistingDevices;
 - (MIDIPortRef) outputPort;
+@property (nonatomic, retain) NSTimer *rescanTimer;
 @end
 
 //==============================================================================
@@ -249,6 +250,8 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         NSLogError(s, @"Create input MIDI port");
 
         [self scanExistingDevices];
+        
+        self.rescanTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(scanExistingDevices) userInfo:nil repeats:YES];
     }
 
     return self;
@@ -256,6 +259,9 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
 - (void) dealloc
 {
+    [_rescanTimer invalidate];
+    self.rescanTimer = nil;
+    
     if (outputPort)
     {
         OSStatus s = MIDIPortDispose(outputPort);
@@ -498,10 +504,23 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     const ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
     const ItemCount numberOfSources      = MIDIGetNumberOfSources();
 
+    NSMutableArray *removedSources = [NSMutableArray arrayWithArray:sources];
+    NSMutableArray *removedDestinations = [NSMutableArray arrayWithArray:destinations];
+    
     for (ItemCount index = 0; index < numberOfDestinations; ++index) 
     {
         MIDIEndpointRef endpoint = MIDIGetDestination(index);
         if ( endpoint == virtualDestinationEndpoint ) continue;
+        
+        BOOL matched = NO;
+        for ( PGMidiDestination *destination in destinations ) {
+            if ( destination.endpoint == endpoint ) {
+                [removedDestinations removeObject:destination];
+                matched = YES;
+                break;
+            }
+        }
+        if ( matched ) continue;
         
         [self connectDestination:endpoint];
     }
@@ -510,7 +529,25 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         MIDIEndpointRef endpoint = MIDIGetSource(index);
         if ( endpoint == virtualSourceEndpoint ) continue;
         
+        BOOL matched = NO;
+        for ( PGMidiDestination *source in sources ) {
+            if ( source.endpoint == endpoint ) {
+                [removedSources removeObject:source];
+                matched = YES;
+                break;
+            }
+        }
+        if ( matched ) continue;
+        
         [self connectSource:endpoint];
+    }
+    
+    for ( PGMidiDestination *destination in removedDestinations ) {
+        [self disconnectDestination:destination.endpoint];
+    }
+    
+    for ( PGMidiSource *source in removedSources ) {
+        [self disconnectSource:source.endpoint];
     }
 }
 
