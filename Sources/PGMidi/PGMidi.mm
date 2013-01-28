@@ -202,6 +202,11 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 @synthesize sources,destinations;
 @dynamic networkEnabled;
 
++ (BOOL)midiAvailable
+{
+    return [[[UIDevice currentDevice] systemVersion] floatValue] >= 4.2;
+}
+
 - (id) init
 {
     if ((self = [super init]))

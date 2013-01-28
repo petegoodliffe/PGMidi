@@ -115,6 +115,7 @@ extern NSString * kPGMidiConnectionKey;
     NSMutableArray    *sources, *destinations;
 }
 
++ (BOOL)midiAvailable;
 
 @property (nonatomic,assign) id<PGMidiDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
