@@ -71,10 +71,10 @@ extern NSString * kPGMidiConnectionKey;
 ///
 /// @see PGMidiSourceDelegate
 @interface PGMidiSource : PGMidiConnection
-{
-    id<PGMidiSourceDelegate> delegate;
-}
-@property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiSourceDelegate> delegate;
+- (void)addDelegate:(id<PGMidiSourceDelegate>)delegate;
+- (void)removeDelegate:(id<PGMidiSourceDelegate>)delegate;
+
+@property (strong, readonly) NSArray *delegates;
 @end
 
 //==============================================================================
@@ -115,8 +115,8 @@ extern NSString * kPGMidiConnectionKey;
     NSMutableArray    *sources, *destinations;
 }
 
-@property (nonatomic,PGMIDI_DELEGATE_PROPERTY) id<PGMidiDelegate> delegate;
 
+@property (nonatomic,assign) id<PGMidiDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
 @property (nonatomic,readonly) NSMutableArray    *destinations;

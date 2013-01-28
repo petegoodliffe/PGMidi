@@ -36,8 +36,6 @@ OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
 
 #endif
 
-#define PGMIDI_DELEGATE_PROPERTY strong
-
 
 //==============================================================================
 #else
@@ -52,7 +50,5 @@ OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
 }
 
 #endif
-
-#define PGMIDI_DELEGATE_PROPERTY assign
 
 #endif

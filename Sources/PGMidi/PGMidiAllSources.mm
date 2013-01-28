@@ -26,19 +26,19 @@
 - (void) setMidi:(PGMidi *)newMidi
 {
     midi.delegate = nil;
-    for (PGMidiSource *source in midi.sources) source.delegate = nil;
+    for (PGMidiSource *source in midi.sources) [source removeDelegate:self];
 
     midi = newMidi;
 
     midi.delegate = self;
-    for (PGMidiSource *source in midi.sources) source.delegate = self;
+    for (PGMidiSource *source in midi.sources) [source addDelegate:self];
 }
 
 #pragma mark PGMidiDelegate
 
 - (void) midi:(PGMidi*)midi sourceAdded:(PGMidiSource *)source
 {
-    source.delegate = self;
+    [source addDelegate:self];
 }
 
 - (void) midi:(PGMidi*)midi sourceRemoved:(PGMidiSource *)source {}
