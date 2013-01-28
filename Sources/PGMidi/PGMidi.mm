@@ -13,12 +13,12 @@
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
 
-NSString * PGMidiSourceAddedNotification = @"PGMidiSourceAddedNotification";
-NSString * PGMidiSourceRemovedNotification = @"PGMidiSourceRemovedNotification";
-NSString * PGMidiDestinationAddedNotification = @"PGMidiDestinationAddedNotification";
-NSString * PGMidiDestinationRemovedNotification = @"PGMidiDestinationRemovedNotification";
+NSString * const PGMidiSourceAddedNotification = @"PGMidiSourceAddedNotification";
+NSString * const PGMidiSourceRemovedNotification = @"PGMidiSourceRemovedNotification";
+NSString * const PGMidiDestinationAddedNotification = @"PGMidiDestinationAddedNotification";
+NSString * const PGMidiDestinationRemovedNotification = @"PGMidiDestinationRemovedNotification";
 
-NSString * kPGMidiConnectionKey = @"connection";
+NSString * const kPGMidiConnectionKey = @"connection";
 
 //==============================================================================
 

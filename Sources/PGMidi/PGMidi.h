@@ -11,12 +11,12 @@
 @class PGMidi;
 @class PGMidiSource;
 
-extern NSString * PGMidiSourceAddedNotification;
-extern NSString * PGMidiSourceRemovedNotification;
-extern NSString * PGMidiDestinationAddedNotification;
-extern NSString * PGMidiDestinationRemovedNotification;
+extern NSString * const PGMidiSourceAddedNotification;
+extern NSString * const PGMidiSourceRemovedNotification;
+extern NSString * const PGMidiDestinationAddedNotification;
+extern NSString * const PGMidiDestinationRemovedNotification;
 
-extern NSString * kPGMidiConnectionKey;
+extern NSString * const kPGMidiConnectionKey;
 
 
 /// Represents a source/destination for MIDI data
