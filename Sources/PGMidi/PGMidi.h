@@ -83,8 +83,9 @@ extern NSString * kPGMidiConnectionKey;
 @interface PGMidiDestination : PGMidiConnection
 {
 }
+- (void) flushOutput;
 - (void) sendBytes:(const UInt8*)bytes size:(UInt32)size;
-- (void) sendPacketList:(const MIDIPacketList *)packetList;
+- (void) sendPacketList:(MIDIPacketList *)packetList;
 @end
 
 //==============================================================================
@@ -111,6 +112,11 @@ extern NSString * kPGMidiConnectionKey;
     MIDIClientRef      client;
     MIDIPortRef        outputPort;
     MIDIPortRef        inputPort;
+    NSString          *virtualEndpointName;
+    MIDIEndpointRef    virtualSourceEndpoint;
+    MIDIEndpointRef    virtualDestinationEndpoint;
+    PGMidiSource      *virtualDestinationSource;
+    PGMidiDestination *virtualSourceDestination;
     id<PGMidiDelegate> delegate;
     NSMutableArray    *sources, *destinations;
 }
@@ -121,7 +127,12 @@ extern NSString * kPGMidiConnectionKey;
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
 @property (nonatomic,readonly) NSMutableArray    *destinations;
+@property (nonatomic,readonly) PGMidiSource      *virtualDestinationSource;
+@property (nonatomic,readonly) PGMidiDestination *virtualSourceDestination;
+@property (nonatomic,retain)   NSString          *virtualEndpointName;
 @property (nonatomic,assign) BOOL networkEnabled;
+@property (nonatomic,assign) BOOL virtualSourceEnabled;
+@property (nonatomic,assign) BOOL virtualDestinationEnabled;
 
 /// Send a MIDI byte stream to every connected MIDI port
 - (void) sendBytes:(const UInt8*)bytes size:(UInt32)size;
