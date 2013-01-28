@@ -13,9 +13,12 @@
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
 
-//==============================================================================
-// ARC
+NSString * PGMidiSourceAddedNotification = @"PGMidiSourceAddedNotification";
+NSString * PGMidiSourceRemovedNotification = @"PGMidiSourceRemovedNotification";
+NSString * PGMidiDestinationAddedNotification = @"PGMidiDestinationAddedNotification";
+NSString * PGMidiDestinationRemovedNotification = @"PGMidiDestinationRemovedNotification";
 
+NSString * kPGMidiConnectionKey = @"connection";
 
 //==============================================================================
 
@@ -263,7 +266,12 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     PGMidiSource *source = [[PGMidiSource alloc] initWithMidi:self endpoint:endpoint];
     [sources addObject:source];
     [delegate midi:self sourceAdded:source];
-
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiSourceAddedNotification
+                                                        object:self 
+                                                      userInfo:[NSDictionary dictionaryWithObject:source 
+                                                                                           forKey:kPGMidiConnectionKey]];
+    
     OSStatus s = MIDIPortConnectSource(inputPort, endpoint, arc_cast<void>(source));
     NSLogError(s, @"Connecting to MIDI source");
 }
@@ -276,10 +284,15 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     {
         OSStatus s = MIDIPortDisconnectSource(inputPort, endpoint);
         NSLogError(s, @"Disconnecting from MIDI source");
-
-        [delegate midi:self sourceRemoved:source];
-
         [sources removeObject:source];
+        
+        [delegate midi:self sourceRemoved:source];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiSourceRemovedNotification
+                                                            object:self 
+                                                          userInfo:[NSDictionary dictionaryWithObject:source 
+                                                                                               forKey:kPGMidiConnectionKey]];
+        
 #if ! PGMIDI_ARC
         [source release];
 #endif
@@ -288,22 +301,32 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 - (void) connectDestination:(MIDIEndpointRef)endpoint
 {
-    //[delegate midiInput:self event:@"Added a destination"];
     PGMidiDestination *destination = [[PGMidiDestination alloc] initWithMidi:self endpoint:endpoint];
     [destinations addObject:destination];
     [delegate midi:self destinationAdded:destination];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiDestinationAddedNotification
+                                                        object:self 
+                                                      userInfo:[NSDictionary dictionaryWithObject:destination 
+                                                                                           forKey:kPGMidiConnectionKey]];
+
 }
 
 - (void) disconnectDestination:(MIDIEndpointRef)endpoint
 {
-    //[delegate midiInput:self event:@"Removed a device"];
-
     PGMidiDestination *destination = [self getDestination:endpoint];
 
     if (destination)
     {
-        [delegate midi:self destinationRemoved:destination];
         [destinations removeObject:destination];
+        
+        [delegate midi:self destinationRemoved:destination];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiDestinationRemovedNotification
+                                                            object:self 
+                                                          userInfo:[NSDictionary dictionaryWithObject:destination 
+                                                                                               forKey:kPGMidiConnectionKey]];
+
 #if ! PGMIDI_ARC
         [destination release];
 #endif
