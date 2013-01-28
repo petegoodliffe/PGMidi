@@ -36,24 +36,11 @@ static
 NSString *NameOfEndpoint(MIDIEndpointRef ref)
 {
     NSString *string = nil;
-
-    MIDIEntityRef entity = 0;
-    MIDIEndpointGetEntity(ref, &entity);
-
-    CFPropertyListRef properties = nil;
-    OSStatus s = MIDIObjectGetProperties(entity, &properties, true);
-    if (s)
+    OSStatus s = MIDIObjectGetStringProperty(ref, kMIDIPropertyDisplayName, (CFStringRef*)&string);
+    if ( s != noErr ) 
     {
         string = @"Unknown name";
     }
-    else
-    {
-        //NSLog(@"Properties = %@", properties);
-        NSDictionary *dictionary = arc_cast<NSDictionary>(properties);
-        string = [NSString stringWithFormat:@"%@", [dictionary valueForKey:@"name"]];
-        CFRelease(properties);
-    }
-
     return string;
 }
 
