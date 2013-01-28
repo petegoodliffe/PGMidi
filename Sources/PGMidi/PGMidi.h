@@ -120,9 +120,7 @@ extern NSString * kPGMidiConnectionKey;
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
 @property (nonatomic,readonly) NSMutableArray    *destinations;
-
-/// Enables or disables CoreMIDI network connections
-- (void) enableNetwork:(BOOL)enabled;
+@property (nonatomic,assign) BOOL networkEnabled;
 
 /// Send a MIDI byte stream to every connected MIDI port
 - (void) sendBytes:(const UInt8*)bytes size:(UInt32)size;

@@ -200,6 +200,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 
 @synthesize delegate;
 @synthesize sources,destinations;
+@dynamic networkEnabled;
 
 - (id) init
 {
@@ -260,10 +261,15 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
     return outputPort;
 }
 
-- (void) enableNetwork:(BOOL)enabled
+-(BOOL)networkEnabled 
+{
+    return [MIDINetworkSession defaultSession].enabled;
+}
+
+-(void)setNetworkEnabled:(BOOL)networkEnabled 
 {
     MIDINetworkSession* session = [MIDINetworkSession defaultSession];
-    session.enabled = YES;
+    session.enabled = networkEnabled;
     session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
 }
 
