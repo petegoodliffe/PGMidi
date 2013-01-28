@@ -16,7 +16,7 @@ extern NSString * const PGMidiSourceRemovedNotification;
 extern NSString * const PGMidiDestinationAddedNotification;
 extern NSString * const PGMidiDestinationRemovedNotification;
 
-extern NSString * const kPGMidiConnectionKey;
+extern NSString * const PGMidiConnectionKey;
 
 
 /// Represents a source/destination for MIDI data
