@@ -420,7 +420,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         [virtualDestinationSource release]; virtualDestinationSource = nil;
         OSStatus s = MIDIEndpointDispose(virtualDestinationEndpoint);
         NSLogError(s, @"Dispose MIDI virtual destination");
-        virtualDestinationEnabled = NULL;
+        virtualDestinationEnabled = NO;
     }
 }
 
