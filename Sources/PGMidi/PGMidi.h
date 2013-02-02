@@ -25,10 +25,10 @@ extern NSString * const PGMidiConnectionKey;
 /// @see PGMidiDestination
 @interface PGMidiConnection : NSObject
 {
-    PGMidi                  *midi;
-    MIDIEndpointRef          endpoint;
-    NSString                *name;
-    BOOL                     isNetworkSession;
+    PGMidi          *midi;
+    MIDIEndpointRef  endpoint;
+    NSString        *name;
+    BOOL             isNetworkSession;
 }
 @property (nonatomic,readonly) PGMidi          *midi;
 @property (nonatomic,readonly) MIDIEndpointRef  endpoint;
@@ -74,7 +74,7 @@ extern NSString * const PGMidiConnectionKey;
 - (void)addDelegate:(id<PGMidiSourceDelegate>)delegate;
 - (void)removeDelegate:(id<PGMidiSourceDelegate>)delegate;
 
-@property (strong, readonly) NSArray *delegates;
+@property (strong, nonatomic, readonly) NSArray *delegates;
 @end
 
 //==============================================================================
@@ -117,22 +117,21 @@ extern NSString * const PGMidiConnectionKey;
     MIDIEndpointRef    virtualDestinationEndpoint;
     PGMidiSource      *virtualDestinationSource;
     PGMidiDestination *virtualSourceDestination;
-    id<PGMidiDelegate> delegate;
     NSMutableArray    *sources, *destinations;
 }
 
 + (BOOL)midiAvailable;
 
-@property (nonatomic,assign) id<PGMidiDelegate> delegate;
+@property (nonatomic,assign)   id<PGMidiDelegate> delegate;
 @property (nonatomic,readonly) NSUInteger         numberOfConnections;
 @property (nonatomic,readonly) NSMutableArray    *sources;
 @property (nonatomic,readonly) NSMutableArray    *destinations;
 @property (nonatomic,readonly) PGMidiSource      *virtualDestinationSource;
 @property (nonatomic,readonly) PGMidiDestination *virtualSourceDestination;
 @property (nonatomic,retain)   NSString          *virtualEndpointName;
-@property (nonatomic,assign) BOOL networkEnabled;
-@property (nonatomic,assign) BOOL virtualSourceEnabled;
-@property (nonatomic,assign) BOOL virtualDestinationEnabled;
+@property (nonatomic,assign)   BOOL               networkEnabled;
+@property (nonatomic,assign)   BOOL               virtualSourceEnabled;
+@property (nonatomic,assign)   BOOL               virtualDestinationEnabled;
 
 /// Send a MIDI byte stream to every connected MIDI port
 - (void) sendBytes:(const UInt8*)bytes size:(UInt32)size;
