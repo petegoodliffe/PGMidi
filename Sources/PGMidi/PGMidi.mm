@@ -13,12 +13,11 @@
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
 
-NSString * const PGMidiSourceAddedNotification = @"PGMidiSourceAddedNotification";
-NSString * const PGMidiSourceRemovedNotification = @"PGMidiSourceRemovedNotification";
-NSString * const PGMidiDestinationAddedNotification = @"PGMidiDestinationAddedNotification";
+NSString * const PGMidiSourceAddedNotification        = @"PGMidiSourceAddedNotification";
+NSString * const PGMidiSourceRemovedNotification      = @"PGMidiSourceRemovedNotification";
+NSString * const PGMidiDestinationAddedNotification   = @"PGMidiDestinationAddedNotification";
 NSString * const PGMidiDestinationRemovedNotification = @"PGMidiDestinationRemovedNotification";
-
-NSString * const PGMidiConnectionKey = @"connection";
+NSString * const PGMidiConnectionKey                  = @"connection";
 
 //==============================================================================
 
@@ -117,12 +116,14 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 }
 #endif
 
-- (void)addDelegate:(id<PGMidiSourceDelegate>)delegate {
     if ( [_delegates containsObject:[NSValue valueWithPointer:delegate]] ) return;
 	self.delegates = [_delegates arrayByAddingObject:[NSValue valueWithPointer:delegate] /* avoid retain loop */];
+- (void)addDelegate:(id<PGMidiSourceDelegate>)delegate
+{
 }
 
-- (void)removeDelegate:(id<PGMidiSourceDelegate>)delegate {
+- (void)removeDelegate:(id<PGMidiSourceDelegate>)delegate
+{
     NSMutableArray *mutableDelegates = [_delegates mutableCopy];
     [mutableDelegates removeObject:[NSValue valueWithPointer:delegate]];
     self.delegates = mutableDelegates;
@@ -131,8 +132,8 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 // NOTE: Called on a separate high-priority thread, not the main runloop
 - (void) midiRead:(const MIDIPacketList *)pktlist
 {
-    NSArray *delegates_ = self.delegates;
-    for ( NSValue *delegatePtr in delegates_ ) 
+    NSArray *delegates = self.delegates;
+    for (NSValue *delegatePtr in delegates)
     {
         id<PGMidiSourceDelegate> delegate = (id<PGMidiSourceDelegate>)[delegatePtr pointerValue];
         [delegate midiSource:self midiReceived:pktlist];
@@ -206,13 +207,15 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 {
     // Assign proper timestamps to packetList
     MIDIPacket *packet = &packetList->packet[0];
-    for ( int i = 0; i<packetList->numPackets; i++ ) {
-        if ( packet->timeStamp == 0 ) {
+    for (int i = 0; i < packetList->numPackets; i++)
+    {
+        if ( packet->timeStamp == 0 )
+        {
             packet->timeStamp = mach_absolute_time();
         }
         packet = MIDIPacketNext(packet);
     }
-    
+
     // Send it
     OSStatus s = MIDIReceived(endpoint, packetList);
     NSLogError(s, @"Sending MIDI");
@@ -225,8 +228,9 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 @implementation PGMidi
 
 @synthesize delegate;
-@synthesize sources,destinations,virtualSourceDestination,virtualDestinationSource,virtualEndpointName;
-@dynamic networkEnabled;
+@synthesize sources,destinations;
+@synthesize virtualSourceDestination,virtualDestinationSource,virtualEndpointName;
+@dynamic    networkEnabled;
 
 + (BOOL)midiAvailable
 {
@@ -321,11 +325,15 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 -(void)setVirtualSourceEnabled:(BOOL)virtualSourceEnabled {
     if ( virtualSourceEnabled == self.virtualSourceEnabled ) return;
     
-    if ( virtualSourceEnabled ) {
-        NSString *name = virtualEndpointName ? virtualEndpointName : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
         OSStatus s = MIDISourceCreate(client, (CFStringRef)name, &virtualSourceEndpoint);
+    if (virtualSourceEnabled)
+    {
+        NSString *name
+            = virtualEndpointName
+            ? virtualEndpointName
+            : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
         NSLogError(s, @"Create MIDI virtual source");
-        if ( s != noErr ) return;
+        if (s) return;
         
         virtualSourceDestination = [[PGMidiVirtualSourceDestination alloc] initWithMidi:self endpoint:virtualSourceEndpoint];
 
@@ -335,7 +343,9 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
                                                           userInfo:[NSDictionary dictionaryWithObject:virtualSourceDestination
                                                                                                forKey:PGMidiConnectionKey]];
         
-    } else {
+    }
+    else
+    {
         [delegate midi:self destinationRemoved:virtualSourceDestination];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiDestinationRemovedNotification
@@ -355,30 +365,37 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     return virtualDestinationSource != nil;
 }
 
--(void)setVirtualDestinationEnabled:(BOOL)virtualDestinationEnabled {
-    if ( virtualDestinationEnabled == self.virtualDestinationEnabled ) return;
+-(void)setVirtualDestinationEnabled:(BOOL)virtualDestinationEnabled
+{
+    if (virtualDestinationEnabled == self.virtualDestinationEnabled) return;
     
-    if ( virtualDestinationEnabled ) {
-        NSString *name = virtualEndpointName ? virtualEndpointName : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
-        OSStatus s = MIDIDestinationCreate(client, (CFStringRef)name, PGMIDIVirtualDestinationReadProc, self, &virtualDestinationEndpoint);
+    if (virtualDestinationEnabled)
+    {
+        NSString *name
+            = virtualEndpointName
+            ? virtualEndpointName
+            : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
+        OSStatus s = MIDIDestinationCreate(client, (__bridge CFStringRef)name, PGMIDIVirtualDestinationReadProc, (__bridge void*)self, &virtualDestinationEndpoint);
         NSLogError(s, @"Create MIDI virtual destination");
-        if ( s != noErr ) return;
+        if (s) return;
         
         // Attempt to use saved unique ID
         SInt32 uniqueID = [[NSUserDefaults standardUserDefaults] integerForKey:@"PGMIDI Saved Virtual Destination ID"];
-        if ( uniqueID ) 
+        if (uniqueID)
         {
             s = MIDIObjectSetIntegerProperty(virtualDestinationEndpoint, kMIDIPropertyUniqueID, uniqueID);
-            if ( s == kMIDIIDNotUnique ) 
+            if (s == kMIDIIDNotUnique)
             {
                 uniqueID = 0;
             }
         }
         // Save the ID
-        if ( !uniqueID ) {
-            OSStatus s = MIDIObjectGetIntegerProperty(virtualDestinationEndpoint, kMIDIPropertyUniqueID, &uniqueID);
+        if (!uniqueID)
+        {
+            s = MIDIObjectGetIntegerProperty(virtualDestinationEndpoint, kMIDIPropertyUniqueID, &uniqueID);
             NSLogError(s, @"Get MIDI virtual destination ID");
-            if ( s == noErr ) {
+            if (s == noErr)
+            {
                 [[NSUserDefaults standardUserDefaults] setInteger:uniqueID forKey:@"PGMIDI Saved Virtual Destination ID"];
             }
         }
@@ -390,7 +407,9 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
                                                             object:self 
                                                           userInfo:[NSDictionary dictionaryWithObject:virtualDestinationSource
                                                                                                forKey:PGMidiConnectionKey]];
-    } else {
+    }
+    else
+    {
         [delegate midi:self sourceRemoved:virtualDestinationSource];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiSourceRemovedNotification
@@ -475,7 +494,6 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
                                                         object:self 
                                                       userInfo:[NSDictionary dictionaryWithObject:destination 
                                                                                            forKey:PGMidiConnectionKey]];
-
 }
 
 - (void) disconnectDestination:(MIDIEndpointRef)endpoint
@@ -492,7 +510,6 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
                                                             object:self 
                                                           userInfo:[NSDictionary dictionaryWithObject:destination 
                                                                                                forKey:PGMidiConnectionKey]];
-
 #if ! PGMIDI_ARC
         [destination release];
 #endif
@@ -504,49 +521,55 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     const ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
     const ItemCount numberOfSources      = MIDIGetNumberOfSources();
 
-    NSMutableArray *removedSources = [NSMutableArray arrayWithArray:sources];
-    NSMutableArray *removedDestinations = [NSMutableArray arrayWithArray:destinations];
+    NSMutableArray *removedSources       = [NSMutableArray arrayWithArray:sources];
+    NSMutableArray *removedDestinations  = [NSMutableArray arrayWithArray:destinations];
     
     for (ItemCount index = 0; index < numberOfDestinations; ++index) 
     {
         MIDIEndpointRef endpoint = MIDIGetDestination(index);
-        if ( endpoint == virtualDestinationEndpoint ) continue;
+        if (endpoint == virtualDestinationEndpoint) continue;
         
         BOOL matched = NO;
-        for ( PGMidiDestination *destination in destinations ) {
-            if ( destination.endpoint == endpoint ) {
+        for (PGMidiDestination *destination in destinations)
+        {
+            if (destination.endpoint == endpoint)
+            {
                 [removedDestinations removeObject:destination];
                 matched = YES;
                 break;
             }
         }
-        if ( matched ) continue;
+        if (matched) continue;
         
         [self connectDestination:endpoint];
     }
     for (ItemCount index = 0; index < numberOfSources; ++index)
     {
         MIDIEndpointRef endpoint = MIDIGetSource(index);
-        if ( endpoint == virtualSourceEndpoint ) continue;
+        if (endpoint == virtualSourceEndpoint) continue;
         
         BOOL matched = NO;
-        for ( PGMidiDestination *source in sources ) {
-            if ( source.endpoint == endpoint ) {
+        for (PGMidiDestination *source in sources)
+        {
+            if (source.endpoint == endpoint)
+            {
                 [removedSources removeObject:source];
                 matched = YES;
                 break;
             }
         }
-        if ( matched ) continue;
+        if (matched) continue;
         
         [self connectSource:endpoint];
     }
     
-    for ( PGMidiDestination *destination in removedDestinations ) {
+    for (PGMidiDestination *destination in removedDestinations)
+    {
         [self disconnectDestination:destination.endpoint];
     }
     
-    for ( PGMidiSource *source in removedSources ) {
+    for (PGMidiSource *source in removedSources)
+    {
         [self disconnectSource:source.endpoint];
     }
 }
@@ -556,7 +579,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
 - (void) midiNotifyAdd:(const MIDIObjectAddRemoveNotification *)notification
 {
-    if ( notification->child == virtualDestinationEndpoint || notification->child == virtualSourceEndpoint ) return;
+    if (notification->child == virtualDestinationEndpoint || notification->child == virtualSourceEndpoint) return;
     
     if (notification->childType == kMIDIObjectType_Destination)
         [self connectDestination:(MIDIEndpointRef)notification->child];
@@ -566,7 +589,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
 - (void) midiNotifyRemove:(const MIDIObjectAddRemoveNotification *)notification
 {
-    if ( notification->child == virtualDestinationEndpoint || notification->child == virtualSourceEndpoint ) return;
+    if (notification->child == virtualDestinationEndpoint || notification->child == virtualSourceEndpoint) return;
     
     if (notification->childType == kMIDIObjectType_Destination)
         [self disconnectDestination:(MIDIEndpointRef)notification->child];
