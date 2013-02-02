@@ -89,7 +89,7 @@ NSString *ToString(PGMidiConnection *connection)
 {
     for (PGMidiSource *source in midi.sources)
     {
-        source.delegate = self;
+        [source addDelegate:self];
     }
 }
 
@@ -118,7 +118,7 @@ NSString *ToString(PGMidiConnection *connection)
 
 - (void) midi:(PGMidi*)midi sourceAdded:(PGMidiSource *)source
 {
-    source.delegate = self;
+    [source addDelegate:self];
     [self updateCountLabel];
     [self addString:[NSString stringWithFormat:@"Source added: %@", ToString(source)]];
 }
