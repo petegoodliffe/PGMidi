@@ -36,13 +36,13 @@ static void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void
 static
 NSString *NameOfEndpoint(MIDIEndpointRef ref)
 {
-    NSString *string = nil;
-    OSStatus s = MIDIObjectGetStringProperty(ref, kMIDIPropertyDisplayName, (CFStringRef*)&string);
+    CFStringRef string = nil;
+    OSStatus s = MIDIObjectGetStringProperty(ref, kMIDIPropertyDisplayName, ( CFStringRef*)&string);
     if ( s != noErr ) 
     {
-        string = @"Unknown name";
+        return @"Unknown name";
     }
-    return string;
+    return (NSString*)CFBridgingRelease(string);
 }
 
 static
@@ -116,16 +116,18 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 }
 #endif
 
-    if ( [_delegates containsObject:[NSValue valueWithPointer:delegate]] ) return;
-	self.delegates = [_delegates arrayByAddingObject:[NSValue valueWithPointer:delegate] /* avoid retain loop */];
 - (void)addDelegate:(id<PGMidiSourceDelegate>)delegate
 {
+    if (![_delegates containsObject:[NSValue valueWithPointer:(void*)delegate]])
+    {
+        self.delegates = [_delegates arrayByAddingObject:[NSValue valueWithPointer:(void*)delegate] /* avoid retain loop */];
+    }
 }
 
 - (void)removeDelegate:(id<PGMidiSourceDelegate>)delegate
 {
     NSMutableArray *mutableDelegates = [_delegates mutableCopy];
-    [mutableDelegates removeObject:[NSValue valueWithPointer:delegate]];
+    [mutableDelegates removeObject:[NSValue valueWithPointer:(void*)delegate]];
     self.delegates = mutableDelegates;
 }
 
@@ -150,7 +152,7 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 static
 void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    PGMidi *midi = (PGMidi*)readProcRefCon;
+    PGMidi *midi = (__bridge PGMidi*)readProcRefCon;
     PGMidiSource *self = midi.virtualDestinationSource;
     [self midiRead:pktlist];
 }
@@ -244,7 +246,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         sources      = [NSMutableArray new];
         destinations = [NSMutableArray new];
 
-        OSStatus s = MIDIClientCreate((CFStringRef)@"PGMidi MIDI Client", PGMIDINotifyProc, self, &client);
+        OSStatus s = MIDIClientCreate((CFStringRef)@"PGMidi MIDI Client", PGMIDINotifyProc, (__bridge void*)self, &client);
         NSLogError(s, @"Create MIDI client");
 
         s = MIDIOutputPortCreate(client, (CFStringRef)@"PGMidi Output Port", &outputPort);
@@ -322,17 +324,17 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     return virtualSourceDestination != nil;
 }
 
-    if ( virtualSourceEnabled == self.virtualSourceEnabled ) return;
 -(void)setVirtualSourceEnabled:(BOOL)virtualSourceEnabled
 {
+    if (virtualSourceEnabled == self.virtualSourceEnabled) return;
     
-        OSStatus s = MIDISourceCreate(client, (CFStringRef)name, &virtualSourceEndpoint);
     if (virtualSourceEnabled)
     {
         NSString *name
             = virtualEndpointName
             ? virtualEndpointName
             : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
+        OSStatus s = MIDISourceCreate(client, (__bridge CFStringRef)name, &virtualSourceEndpoint);
         NSLogError(s, @"Create MIDI virtual source");
         if (s) return;
         
