@@ -7,8 +7,9 @@
 #import "PGArc.h"
 #import <mach/mach_time.h>
 
-// For some reason, this is nut pulled in by the umbrella header
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #import <CoreMIDI/MIDINetworkSession.h>
+#endif
 
 /// A helper that NSLogs an error message if "c" is an error code
 #define NSLogError(c,str) do{if (c) NSLog(@"Error (%@): %ld:%@", str, (long)c,[NSError errorWithDomain:NSMachErrorDomain code:c userInfo:nil]);}while(false)
@@ -94,7 +95,7 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 //==============================================================================
 
 @interface PGMidiSource ()
-@property (strong, readwrite) NSArray *delegates;
+@property (strong, nonatomic, readwrite) NSArray *delegates;
 @end
 
 @implementation PGMidiSource
@@ -145,16 +146,20 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 static
 void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    PGMidiSource *self = arc_cast<PGMidiSource>(srcConnRefCon);
-    [self midiRead:pktlist];
+    @autoreleasepool {
+        PGMidiSource *self = arc_cast<PGMidiSource>(srcConnRefCon);
+        [self midiRead:pktlist];
+    }
 }
 
 static
 void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    PGMidi *midi = (__bridge PGMidi*)readProcRefCon;
-    PGMidiSource *self = midi.virtualDestinationSource;
-    [self midiRead:pktlist];
+    @autoreleasepool {
+        PGMidi *midi = (__bridge PGMidi*)readProcRefCon;
+        PGMidiSource *self = midi.virtualDestinationSource;
+        [self midiRead:pktlist];
+    }
 }
 
 @end
@@ -236,7 +241,11 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
 + (BOOL)midiAvailable
 {
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     return [[[UIDevice currentDevice] systemVersion] floatValue] >= 4.2;
+#else
+    return YES;
+#endif
 }
 
 - (id) init
@@ -307,16 +316,24 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     return outputPort;
 }
 
--(BOOL)networkEnabled 
+-(BOOL)networkEnabled
 {
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     return [MIDINetworkSession defaultSession].enabled;
+#else
+    return NO;
+#endif
 }
 
--(void)setNetworkEnabled:(BOOL)networkEnabled 
+-(void)setNetworkEnabled:(BOOL)networkEnabled
 {
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     MIDINetworkSession* session = [MIDINetworkSession defaultSession];
     session.enabled = networkEnabled;
     session.connectionPolicy = MIDINetworkConnectionPolicy_Anyone;
+#else
+    NSLog(@"MIDINetworkSession not available on Mac OS X");
+#endif
 }
 
 -(BOOL)virtualSourceEnabled
@@ -383,7 +400,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         if (s) return;
         
         // Attempt to use saved unique ID
-        SInt32 uniqueID = [[NSUserDefaults standardUserDefaults] integerForKey:@"PGMIDI Saved Virtual Destination ID"];
+        SInt32 uniqueID = (SInt32)[[NSUserDefaults standardUserDefaults] integerForKey:@"PGMIDI Saved Virtual Destination ID"];
         if (uniqueID)
         {
             s = MIDIObjectSetIntegerProperty(virtualDestinationEndpoint, kMIDIPropertyUniqueID, uniqueID);

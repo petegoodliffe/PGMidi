@@ -3,7 +3,12 @@
 //  PGMidi
 //
 
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
+#else
+#import <Foundation/Foundation.h>
+#endif
+
 #import <CoreMIDI/CoreMIDI.h>
 
 #import "PGArc.h"
