@@ -28,7 +28,9 @@
         // We only create a MidiInput object on iOS versions that support CoreMIDI
         midi = [[PGMidi alloc] init];
         midi.networkEnabled = YES;
-        viewController.midi = midi;
+		viewController.midi = midi;
+		midi.virtualDestinationEnabled = YES;
+		midi.virtualSourceEnabled = YES;
     )
 
 	return YES;
