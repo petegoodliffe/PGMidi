@@ -61,21 +61,18 @@ NSString *ToString(PGMidiConnection *connection)
 }
 - (IBAction) listAllInterfaces
 {
-    IF_IOS_HAS_COREMIDI
-    ({
-        [self addString:@"\n\nInterface list:"];
-        for (PGMidiSource *source in midi.sources)
-        {
-            NSString *description = [NSString stringWithFormat:@"Source: %@", ToString(source)];
-            [self addString:description];
-        }
-        [self addString:@""];
-        for (PGMidiDestination *destination in midi.destinations)
-        {
-            NSString *description = [NSString stringWithFormat:@"Destination: %@", ToString(destination)];
-            [self addString:description];
-        }
-    })
+	[self addString:@"\n\nInterface list:"];
+	for (PGMidiSource *source in midi.sources)
+	{
+		NSString *description = [NSString stringWithFormat:@"Source: %@", ToString(source)];
+		[self addString:description];
+	}
+	[self addString:@""];
+	for (PGMidiDestination *destination in midi.destinations)
+	{
+		NSString *description = [NSString stringWithFormat:@"Destination: %@", ToString(destination)];
+		[self addString:description];
+	}
 }
 
 - (IBAction) sendMidiData
