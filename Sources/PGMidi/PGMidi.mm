@@ -399,7 +399,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
         [delegate midi:self sourceAdded:virtualDestinationSource];
         [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiSourceAddedNotification
-                                                            object:self 
+                                                            object:self
                                                           userInfo:[NSDictionary dictionaryWithObject:virtualDestinationSource
                                                                                                forKey:PGMidiConnectionKey]];
     }
