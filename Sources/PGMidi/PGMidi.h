@@ -130,6 +130,8 @@ extern NSString * const PGMidiConnectionKey;
 @property (nonatomic,readonly) PGMidiDestination *virtualSourceDestination;
 @property (nonatomic,retain)   NSString          *virtualEndpointName;
 @property (nonatomic,assign)   BOOL               networkEnabled;
+
+/// Remember to set the UIBackgroundModes plist property for virtual sources to work
 @property (nonatomic,assign)   BOOL               virtualSourceEnabled;
 @property (nonatomic,assign)   BOOL               virtualDestinationEnabled;
 
