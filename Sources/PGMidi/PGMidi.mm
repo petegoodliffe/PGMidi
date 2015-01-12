@@ -8,7 +8,7 @@
 #import <mach/mach_time.h>
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-#import <CoreMIDI/MIDINetworkSession.h>
+    #import <CoreMIDI/MIDINetworkSession.h>
 #endif
 
 /// A helper that NSLogs an error message if "c" is an error code
@@ -146,7 +146,8 @@ BOOL IsNetworkSession(MIDIEndpointRef ref)
 static
 void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
         PGMidiSource *self = arc_cast<PGMidiSource>(srcConnRefCon);
         [self midiRead:pktlist];
     }
@@ -155,7 +156,8 @@ void PGMIDIReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *s
 static
 void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readProcRefCon, void *srcConnRefCon)
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
         PGMidi *midi = (__bridge PGMidi*)readProcRefCon;
         PGMidiSource *self = midi.virtualDestinationSource;
         [self midiRead:pktlist];
