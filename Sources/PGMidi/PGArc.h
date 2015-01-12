@@ -33,7 +33,10 @@
         inline
         OBJC_TYPE *arc_cast(SOURCE_TYPE *source)
         {
-            return (__bridge OBJC_TYPE*)source;
+            @autoreleasepool
+            {
+                return (__bridge OBJC_TYPE*)source;
+            }
         }
 
         #define PG_RELEASE(a) a = nil;
