@@ -355,7 +355,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         PG_RELEASE(virtualSourceDestination);
         OSStatus s = MIDIEndpointDispose(virtualSourceEndpoint);
         NSLogError(s, @"Dispose MIDI virtual source");
-        virtualSourceEndpoint = NULL;
+        virtualSourceEndpoint = 0;
     }
 }
 
@@ -375,7 +375,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
         if (s) return;
         
         // Attempt to use saved unique ID
-        SInt32 uniqueID = [[NSUserDefaults standardUserDefaults] integerForKey:@"PGMIDI Saved Virtual Destination ID"];
+        SInt32 uniqueID = (SInt32)[[NSUserDefaults standardUserDefaults] integerForKey:@"PGMIDI Saved Virtual Destination ID"];
         if (uniqueID)
         {
             s = MIDIObjectSetIntegerProperty(virtualDestinationEndpoint, kMIDIPropertyUniqueID, uniqueID);

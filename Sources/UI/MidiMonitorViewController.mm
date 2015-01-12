@@ -110,7 +110,9 @@ NSString *ToString(PGMidiConnection *connection)
 
 - (void) updateCountLabel
 {
-    countLabel.text = [NSString stringWithFormat:@"sources=%u destinations=%u", midi.sources.count, midi.destinations.count];
+    countLabel.text = [NSString stringWithFormat:@"sources=%u destinations=%u"
+                       , (unsigned)midi.sources.count
+                       , (unsigned)midi.destinations.count];
 }
 
 - (void) midi:(PGMidi*)midi sourceAdded:(PGMidiSource *)source
