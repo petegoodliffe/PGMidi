@@ -330,11 +330,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     
     if (virtualSourceEnabled)
     {
-        NSString *name
-            = virtualEndpointName
-            ? virtualEndpointName
-            : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
-        OSStatus s = MIDISourceCreate(client, (__bridge CFStringRef)name, &virtualSourceEndpoint);
+        OSStatus s = MIDISourceCreate(client, (__bridge CFStringRef)@"MidiMonitor Source", &virtualSourceEndpoint);
         NSLogError(s, @"Create MIDI virtual source");
         if (s) return;
         
@@ -374,11 +370,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
     
     if (virtualDestinationEnabled)
     {
-        NSString *name
-            = virtualEndpointName
-            ? virtualEndpointName
-            : [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString*)kCFBundleNameKey];
-        OSStatus s = MIDIDestinationCreate(client, (__bridge CFStringRef)name, PGMIDIVirtualDestinationReadProc, (__bridge void*)self, &virtualDestinationEndpoint);
+        OSStatus s = MIDIDestinationCreate(client, (__bridge CFStringRef)@"MidiMonitor Destination", PGMIDIVirtualDestinationReadProc, (__bridge void*)self, &virtualDestinationEndpoint);
         NSLogError(s, @"Create MIDI virtual destination");
         if (s) return;
         
@@ -407,7 +399,7 @@ void PGMIDIVirtualDestinationReadProc(const MIDIPacketList *pktlist, void *readP
 
         [delegate midi:self sourceAdded:virtualDestinationSource];
         [[NSNotificationCenter defaultCenter] postNotificationName:PGMidiSourceAddedNotification
-                                                            object:self 
+                                                            object:self
                                                           userInfo:[NSDictionary dictionaryWithObject:virtualDestinationSource
                                                                                                forKey:PGMidiConnectionKey]];
     }
