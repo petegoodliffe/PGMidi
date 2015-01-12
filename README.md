@@ -40,20 +40,4 @@ Feel free to incorporate this code in your own applications.
 
 I'd appreciate hearing from you if you do so. It's nice to know that I've been helpful. Attribution is welcomed, but not required.
 
-Copyright (c) 2010-2011 Pete Goodliffe. All rights reserved.
-
-
-Release Notes
--------------
-
-* Latest
-  Take the HEAD of this repo. It contains the latest and greatest stuff;
-  the library is always under development.
-* Build 3 (2011-02-04)
-  Updated the PGMidi API to make it a lot more featured.
-* Build 2 (2010-11-02)
-  Added MIDI output to the project.
-* Build 1 (2010-10-14)
-  Initial version
-
-
+Copyright (c) 2010-2015 Pete Goodliffe. All rights reserved.

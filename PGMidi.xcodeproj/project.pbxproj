@@ -49,6 +49,7 @@
 		C139406114DF28FA0054551E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		C139406414DF32E20054551E /* PGArc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PGArc.h; sourceTree = "<group>"; };
 		C14323211A64162000CEB4F5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C14323231A641EE600CEB4F5 /* PGMidi.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = PGMidi.podspec; sourceTree = "<group>"; };
 		C1763E411266F0190032E953 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		C1763E6F1266F7F60032E953 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
 		C1763E701266F7F60032E953 /* PGMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidi.h; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				C139406114DF28FA0054551E /* README.md */,
+				C14323231A641EE600CEB4F5 /* PGMidi.podspec */,
 				C1763E401266EFB60032E953 /* Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
