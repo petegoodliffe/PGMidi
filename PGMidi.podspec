@@ -23,9 +23,10 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '5.0'
 
   s.source       = { :git => "https://github.com/petegoodliffe/PGMidi.git", :commit => "9b62de60a147cd524e9faa653db3123ccc129084" }
-  
+
   s.source_files  = 'Sources/PGMidi', 'Sources/PGMidi/*.{h,mm}'
 
   s.framework  = 'CoreMidi'
+  s.libraries = 'c++'
 
 end
