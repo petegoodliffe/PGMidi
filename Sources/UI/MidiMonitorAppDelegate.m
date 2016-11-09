@@ -20,6 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window.rootViewController = viewController;
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
 
