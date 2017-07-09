@@ -6,6 +6,7 @@
 #import "PGMidi.h"
 #import "PGArc.h"
 #import <mach/mach_time.h>
+#import <UIKit/UIKit.h>
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     #import <CoreMIDI/MIDINetworkSession.h>
